@@ -1,6 +1,8 @@
 package shapes;
 
 import java.awt.Graphics;
+import java.awt.Point;
+
 import main.Game;
 
 /**
@@ -31,5 +33,9 @@ public class Rect {
             (int) (y - Game.getCamera().y), 
             (int) width, 
             (int) height);
+    }
+
+    public Point getCenterredCordinates() {
+        return new Point((int) (x + width / 2), (int) (y + height / 2));
     }
 }
