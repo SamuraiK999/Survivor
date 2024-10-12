@@ -7,14 +7,14 @@ import javax.swing.*;
  * Class for the buttons in the game
  */
 
-public class Button1 extends Rect {
+public class Button extends Rect {
     private String label;
 
     /**
      * Constuctor
      */
 
-    public Button1(String label, float x, float y, float width , float height) {
+    public Button(String label, float x, float y, float width , float height) {
         super(x, y, width, height);
         this.label = label;
     }
