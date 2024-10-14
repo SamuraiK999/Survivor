@@ -29,6 +29,17 @@ public class Rect {
      */
     public void draw(Graphics g) {
         g.fillRect(
+            (int) x, 
+            (int) y, 
+            (int) width, 
+            (int) height);
+    }
+
+    /**
+     * Draw the rectangle relatice to the camera.
+     */
+    public void drawRelative(Graphics g) {
+        g.fillRect(
             (int) (x - Game.getCamera().x), 
             (int) (y - Game.getCamera().y), 
             (int) width, 

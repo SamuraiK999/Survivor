@@ -16,8 +16,7 @@ public abstract class Weapon {
     /**
      * Constructor.
      */
-    public Weapon(Entity owner, float attackSpeed) {
-        this.owner = owner;
+    public Weapon(float attackSpeed) {
         this.attackSpeed = attackSpeed;
     }
 

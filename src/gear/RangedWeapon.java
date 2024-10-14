@@ -1,6 +1,5 @@
 package gear;
 
-import entities.Entity;
 import main.Game;
 import shapes.Circle;
 
@@ -9,13 +8,12 @@ import shapes.Circle;
  */
 public class RangedWeapon extends Weapon {
 
-    public RangedWeapon(Entity owner, float attackSpeed) {
-        super(owner, attackSpeed);
+    public RangedWeapon(float attackSpeed) {
+        super(attackSpeed);
     }
 
     @Override
     public void use(float x, float y) {
-        
         if (cooldown > 0) {
             return;
         }

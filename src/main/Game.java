@@ -1,13 +1,16 @@
 package main;
 
 import entities.Enemy;
+import entities.Entity;
 import entities.Player;
+import gameplay.EnemySpawner;
 import gear.Bullet;
-import gear.MeleeWeapon;
 import gear.RangedWeapon;
+import gear.Slash;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 import shapes.Circle;
 import shapes.Rect;
 
@@ -16,9 +19,15 @@ import shapes.Rect;
  */
 public class Game {
 
-    public static Player player = new Player(new Circle(400, 300, 25));
+    public static Player player = new Player(new Circle(400, 300, Entity.getDefaultRadius()));
     public static ArrayList<Enemy> enemies = new ArrayList<>();
+
     public static ArrayList<Bullet> bullets = new ArrayList<>();
+    public static List<Bullet> bulletsToRemove = new ArrayList<>();
+    
+    public static ArrayList<Slash> slashes = new ArrayList<>();
+    public static List<Slash> slashesToRemove = new ArrayList<>();
+    
 
     private static Point2D.Float camera = new Point2D.Float(0, 0);
 
@@ -26,11 +35,8 @@ public class Game {
      * Constructor.
      */
     public Game() {
-        player.setWeapon(new RangedWeapon(player, 50));
-
-        for (Enemy enemy : enemies) {
-            enemy.setWeapon(new MeleeWeapon(enemy, 75));
-        }
+        player.setWeapon(new RangedWeapon(50));
+        EnemySpawner.getInstance().startSpawning();
     }
 
     /**
@@ -38,15 +44,24 @@ public class Game {
      */
     public void update() {
         player.update();
+
         cameraFollow(player.getBody());
 
-        for (Enemy enemy : enemies) {
-            enemy.update();
+        for (Enemy e : enemies) {
+            e.update();
         }
+        
+        for (Bullet b : bullets) {
+            b.update();
+        }
+        bullets.removeAll(bulletsToRemove);
+        bulletsToRemove.clear();
 
-        for (Bullet bullet : bullets) {
-            bullet.update();
+        for (Slash s : slashes) {
+            s.update();
         }
+        slashes.removeAll(slashesToRemove);
+        slashesToRemove.clear();
     }
 
     /**
@@ -61,6 +76,10 @@ public class Game {
 
         for (Bullet bullet : bullets) {
             bullet.draw(g);
+        }
+
+        for (Slash s : slashes) {
+            s.draw(g);
         }
     }
 

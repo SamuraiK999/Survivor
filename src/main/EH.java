@@ -8,7 +8,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.Timer;
+import shapes.Button;
 
 /**
  * EventHandler
@@ -24,12 +27,19 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     private static boolean isMousePressed;
     private static Game game;
 
+    // basically listeners for the callbacks
+    private static List<Button> buttons = new ArrayList<>();
+
     /**
      * Constructor.
      * Start updating and get reference to the game object
      */
     private EH() {
         timer.start();
+    }
+
+    public void addButton(Button button) {
+        buttons.add(button);
     }
 
     public static boolean isKeyPressed(int keyCode) {
@@ -111,6 +121,11 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void mouseReleased(MouseEvent e) {
         isMousePressed = false;
+        if (buttons.size() > 0) {
+            for (Button b : buttons) {
+                b.onMouseReleased();
+            }
+        }
     }
 
     @Override

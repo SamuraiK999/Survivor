@@ -1,6 +1,7 @@
 package gear;
 
 import entities.Enemy;
+import entities.Player;
 import java.awt.Graphics;
 import main.Engine;
 import main.Game;
@@ -13,6 +14,7 @@ public class Bullet {
 
     private Circle body;
     private Weapon weapon;
+    
     private float dirX;
     private float dirY;
     private float speed = 10;
@@ -36,7 +38,7 @@ public class Bullet {
     }
 
     public void draw(Graphics g) {
-        body.draw(g);
+        body.drawRelative(g);
     }
 
     private void move() {
@@ -55,15 +57,17 @@ public class Bullet {
     }
 
     private void checkForCollision() {
-        if (weapon.owner.type == "player") {
+        if (weapon.owner instanceof Player) {
             for (Enemy enemy : Game.enemies) {
                 if (Engine.collisionCirc(body, enemy.getBody())) {
                     enemy.takeDamage(weapon.damage);
+                    Game.bulletsToRemove.add(this);
                 }
             }
         } else {
             if (Engine.collisionCirc(body, Game.player.getBody())) {
                 Game.player.takeDamage(weapon.damage);
+                Game.bulletsToRemove.add(this);
             }
         }
     }

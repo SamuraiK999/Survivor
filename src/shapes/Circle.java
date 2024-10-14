@@ -25,6 +25,18 @@ public class Circle {
      */
     public void draw(Graphics g) {
         g.fillArc(
+            (int) (x - r), 
+            (int) (y - r),
+            (int) r * 2, 
+            (int) r * 2, 
+            0, 360);
+    }
+
+    /**
+     * Draw the circle relative to the camera.
+     */
+    public void drawRelative(Graphics g) {
+        g.fillArc(
             (int) (x - r + Game.getCamera().x), 
             (int) (y - r + Game.getCamera().y),
             (int) r * 2, 

@@ -9,7 +9,15 @@ import shapes.Circle;
  */
 public abstract class Entity {
 
-    public String type;
+    //TODO
+    //TODO
+    //TODO
+    //TODO
+    //TODO: MAKE ENTITIES PUSH EACHOTHER, NOW THEY JUST CLIP
+    //TODO
+    //TODO
+    //TODO
+    //TODO
 
     protected Circle body;
     protected Weapon weapon;
@@ -18,6 +26,8 @@ public abstract class Entity {
     protected float health = maxHealth;
     protected float armor = 10; // a percentage
     protected float speed = 3; // movement speed
+
+    private static int defaultEntityRadius = 25;
 
     // texture/color
 
@@ -47,7 +57,7 @@ public abstract class Entity {
      */
     public void draw(Graphics g) {
         // g.setColor(color); - if it will be just a color and not an image
-        body.draw(g);
+        body.drawRelative(g);
     }
 
     /**
@@ -73,6 +83,7 @@ public abstract class Entity {
      */
     public void setWeapon(Weapon weapon) {
         this.weapon = weapon;
+        this.weapon.owner = this;
     }
 
     /**
@@ -97,4 +108,8 @@ public abstract class Entity {
      * Death.
      */
     public abstract void die();
+
+    public static int getDefaultRadius() {
+        return defaultEntityRadius;
+    }
 }

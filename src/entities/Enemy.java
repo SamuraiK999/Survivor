@@ -1,5 +1,7 @@
 package entities;
 
+import gear.MeleeWeapon;
+import main.Engine;
 import main.Game;
 import shapes.Circle;
 
@@ -13,7 +15,7 @@ public class Enemy extends Entity {
      */
     public Enemy(Circle body) {
         super(body);
-
+        speed = 1;
     }
 
     @Override
@@ -29,13 +31,15 @@ public class Enemy extends Entity {
     }
 
     private void movementAI() {
-
+        if (weapon instanceof MeleeWeapon) {
+            move(Game.player.getBody().x - body.x, -(Game.player.getBody().y - body.y));
+        }
     }
 
     /**
      * Always shoot.
      */
     private void shooting() {
-        this.useWeapon(Game.player.body.x, Game.player.body.y);
+        this.useWeapon(Game.player.getBody().x, Game.player.getBody().y);
     }
 }

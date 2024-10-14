@@ -35,9 +35,9 @@ public class Player extends Entity {
     /**
      * Handle input for movement.
      */
-    private void movementInput() {
-        float x = 0; // horizontal input
-        float y = 0; // vertical input
+    private void movementInput() { // can we remove that from the checkstyle pretty please xd
+        float x = 0; // horizontal dir
+        float y = 0; // vertical dir
 
         if (EH.isKeyPressed(KeyEvent.VK_W) && EH.isKeyPressed(KeyEvent.VK_S)) {
             y = 0;
