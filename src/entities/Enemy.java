@@ -1,7 +1,6 @@
 package entities;
 
 import gear.MeleeWeapon;
-import main.Engine;
 import main.Game;
 import shapes.Circle;
 

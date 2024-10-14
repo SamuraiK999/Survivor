@@ -5,7 +5,7 @@ import main.EH;
 import main.Engine;
 
 /**
- * Class for the buttons in the game
+ * Class for the buttons in the game.
  */
 
 public class Button {
@@ -13,7 +13,7 @@ public class Button {
     private Rect body;
 
     /**
-     * Constuctor
+     * Constuctor.
      */
     public Button(String label, Rect body) {
         this.label = label;
@@ -25,7 +25,10 @@ public class Button {
         handleHovering();
     }
 
-    public void draw (Graphics g) {
+    /**
+     * Draw (non-relative to the camera).
+     */
+    public void draw(Graphics g) {
         body.draw(g);
         g.setColor(Color.white);
         g.drawString(
@@ -37,12 +40,18 @@ public class Button {
         System.out.println("MAZNA");
     }
 
+    /**
+     * Callback for when the mouse is released.
+     */
     public void onMouseReleased() {
         if (isHovering()) {
             use();
         }
     }
 
+    /**
+     * Handles hovering the mouse above the button.
+     */
     public void handleHovering() {
         if (isHovering()) {
             // draw mask

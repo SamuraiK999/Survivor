@@ -2,7 +2,6 @@ package shapes;
 
 import java.awt.Graphics;
 import java.awt.Point;
-
 import main.Game;
 
 /**
