@@ -1,6 +1,6 @@
 package gear;
 
-import main.Game;
+import core.Game;
 import shapes.Circle;
 
 /**
@@ -8,8 +8,8 @@ import shapes.Circle;
  */
 public class MeleeWeapon extends Weapon {
 
-    public MeleeWeapon(float attackSpeed) {
-        super(attackSpeed);
+    public MeleeWeapon(float damage, float attackSpeed) {
+        super(damage, attackSpeed);
     }
 
     @Override

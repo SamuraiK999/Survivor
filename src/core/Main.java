@@ -1,11 +1,8 @@
-package main;
+package core;
 
 import java.awt.*;
 import javax.swing.*;
-
-/* TODO:
- * wave spawner -> enemy spawner
- */
+import utility.EH;
 
 /**
  * Main.

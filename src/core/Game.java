@@ -1,4 +1,4 @@
-package main;
+package core;
 
 import entities.Enemy;
 import entities.Entity;
@@ -13,14 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 import shapes.Circle;
 import shapes.Rect;
+import utility.Engine;
 
 /**
  * Game.
  */
 public class Game {
 
+    public static ArrayList<Entity> entities = new ArrayList<>();
+
     public static Player player = new Player(new Circle(400, 300, Entity.getDefaultRadius()));
+
     public static ArrayList<Enemy> enemies = new ArrayList<>();
+    public static List<Enemy> enemiesToRemove = new ArrayList<>();
 
     public static ArrayList<Bullet> bullets = new ArrayList<>();
     public static List<Bullet> bulletsToRemove = new ArrayList<>();
@@ -35,7 +40,7 @@ public class Game {
      * Constructor.
      */
     public Game() {
-        player.setWeapon(new RangedWeapon(50));
+        player.setWeapon(new RangedWeapon(10, 50));
         EnemySpawner.getInstance().startSpawning();
     }
 
@@ -43,13 +48,19 @@ public class Game {
      * Handles game logic.
      */
     public void update() {
+        entities.clear();
+        entities.add(player);
+        
+        for (Enemy e : enemies) {
+            entities.add(e);
+            e.update();
+        }
+        enemies.removeAll(enemiesToRemove);
+        enemiesToRemove.clear();
+
         player.update();
 
         cameraFollow(player.getBody());
-
-        for (Enemy e : enemies) {
-            e.update();
-        }
         
         for (Bullet b : bullets) {
             b.update();

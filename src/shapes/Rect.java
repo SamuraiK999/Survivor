@@ -1,8 +1,8 @@
 package shapes;
 
+import core.Game;
 import java.awt.Graphics;
 import java.awt.Point;
-import main.Game;
 
 /**
  * Rectangle.

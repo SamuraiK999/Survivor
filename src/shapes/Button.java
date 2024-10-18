@@ -1,8 +1,8 @@
 package shapes;
 
 import java.awt.*;
-import main.EH;
-import main.Engine;
+import utility.EH;
+import utility.Engine;
 
 /**
  * Class for the buttons in the game.

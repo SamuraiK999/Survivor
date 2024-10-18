@@ -1,6 +1,6 @@
 package gear;
 
-import main.Game;
+import core.Game;
 import shapes.Circle;
 
 /**
@@ -8,8 +8,8 @@ import shapes.Circle;
  */
 public class RangedWeapon extends Weapon {
 
-    public RangedWeapon(float attackSpeed) {
-        super(attackSpeed);
+    public RangedWeapon(float damage, float attackSpeed) {
+        super(damage, attackSpeed);
     }
 
     @Override

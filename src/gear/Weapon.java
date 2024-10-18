@@ -16,7 +16,8 @@ public abstract class Weapon {
     /**
      * Constructor.
      */
-    public Weapon(float attackSpeed) {
+    public Weapon(float damage, float attackSpeed) {
+        this.damage = damage;
         this.attackSpeed = attackSpeed;
     }
 

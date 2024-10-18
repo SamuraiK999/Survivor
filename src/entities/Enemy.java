@@ -1,7 +1,7 @@
 package entities;
 
+import core.Game;
 import gear.MeleeWeapon;
-import main.Game;
 import shapes.Circle;
 
 /**
@@ -26,7 +26,8 @@ public class Enemy extends Entity {
 
     @Override
     public void die() {
-        Game.enemies.remove(this);
+        System.out.println("-1");
+        Game.enemiesToRemove.add(this);
     }
 
     private void movementAI() {

@@ -1,5 +1,7 @@
-package main;
+package utility;
 
+import core.Game;
+import core.Main;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

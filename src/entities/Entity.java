@@ -1,23 +1,15 @@
 package entities;
 
+import core.Game;
 import gear.Weapon;
 import java.awt.Graphics;
 import shapes.Circle;
+import utility.Engine;
 
 /**
  * The class from which all other entity classes derive of.
  */
 public abstract class Entity {
-
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO: MAKE ENTITIES PUSH EACHOTHER, NOW THEY JUST CLIP
-    //TODO
-    //TODO
-    //TODO
-    //TODO
 
     protected Circle body;
     protected Weapon weapon;
@@ -25,7 +17,7 @@ public abstract class Entity {
     protected float maxHealth = 100;
     protected float health = maxHealth;
     protected float armor = 10; // a percentage
-    protected float speed = 3; // movement speed
+    protected float speed = 6; // movement speed
 
     private static int defaultEntityRadius = 25;
 
@@ -50,6 +42,7 @@ public abstract class Entity {
      */
     public void update() {
         weapon.update();
+        handleClipping();
     }
 
     /**
@@ -74,8 +67,40 @@ public abstract class Entity {
         }
 
         // moving the body
-        body.x += x * speed;
-        body.y -= y * speed;
+        body.x += x * speed / 2;
+        body.y -= y * speed / 2;
+    }
+
+    /**
+     * Experimental. Same as move(), but smooth.
+     * Currently used only to handle clipping
+     */
+    public void moveLerp(float x, float y) {
+        // calculating magnitude
+        float magnitude = (float) Math.sqrt(x * x + y * y);
+
+        // normalizing
+        if (magnitude != 0) {
+            x /= magnitude;
+            y /= magnitude;
+        }
+
+        // moving the body
+        body.x = Engine.lerp(body.x, body.x + x * 2, speed / 7);
+        body.y = Engine.lerp(body.y, body.y - y * 2, speed / 7);
+    }
+
+    /**
+     * Make sure that entities don't overlap/clip through each other.
+     */
+    public void handleClipping() {
+        for (Entity e : Game.entities) {
+            if (e != this) {
+                if (Engine.collisionCirc(body, e.getBody())) {
+                    moveLerp(-(e.getBody().x - body.x), (e.getBody().y - body.y));
+                }
+            }
+        }
     }
 
     /**
@@ -97,7 +122,8 @@ public abstract class Entity {
      * Deals damage to the entity.
      */
     public void takeDamage(float damage) {
-        health -= damage - armor / 100;
+        float dmg = Engine.clamp(damage * (100 - armor) / 100, 0, maxHealth);
+        health -= dmg;
         if (health <= 0) {
             health = 0;
             die();

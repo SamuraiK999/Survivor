@@ -1,11 +1,11 @@
 package gear;
 
+import core.Game;
 import entities.Enemy;
 import entities.Player;
 import java.awt.Graphics;
-import main.Engine;
-import main.Game;
 import shapes.Circle;
+import utility.Engine;
 
 /**
  * Bullet.

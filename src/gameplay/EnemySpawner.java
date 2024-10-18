@@ -1,5 +1,6 @@
 package gameplay;
 
+import core.Game;
 import entities.Enemy;
 import entities.Entity;
 import entities.Player;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import main.Game;
 import shapes.Circle;
 
 /**
@@ -36,7 +36,7 @@ public class EnemySpawner {
         enemies = Game.enemies;
 
         //waveInd = 1;
-        waveSize = 5;
+        waveSize = 1;
 
         spawnRadius = 200;
         spawnInterval = 1; // 1 minute
@@ -82,6 +82,6 @@ public class EnemySpawner {
         int y = (int) (player.getBody().y + spawnRadius * Math.sin(angle));
 
         enemies.add(new Enemy(new Circle(x, y, Entity.getDefaultRadius())));
-        enemies.get(enemies.size() - 1).setWeapon(new MeleeWeapon(200));;
+        enemies.get(enemies.size() - 1).setWeapon(new MeleeWeapon(10, 200));;
     }
 }

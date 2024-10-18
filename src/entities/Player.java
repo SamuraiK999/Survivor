@@ -1,8 +1,8 @@
 package entities;
 
 import java.awt.event.KeyEvent;
-import main.EH;
 import shapes.Circle;
+import utility.EH;
 
 /**
  * Player.
@@ -24,7 +24,7 @@ public class Player extends Entity {
 
     @Override
     public void die() {
-
+        System.out.println("rip bozo");
     }
 
     private void handleInput() {

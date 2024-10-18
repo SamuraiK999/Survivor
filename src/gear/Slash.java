@@ -1,11 +1,13 @@
 package gear;
 
+import core.Game;
 import entities.Enemy;
+import entities.Entity;
 import entities.Player;
 import java.awt.Graphics;
-import main.Engine;
-import main.Game;
+import java.util.ArrayList;
 import shapes.Circle;
+import utility.Engine;
 
 /**
  * Slash.
@@ -23,6 +25,8 @@ public class Slash {
     private int currentArcAngle;
 
     private float decaySpeed = 10;
+
+    private ArrayList<Entity> hasHit = new ArrayList<>();
 
     /**
      * Constructor.
@@ -64,16 +68,25 @@ public class Slash {
             startAngle + currentAngle, currentArcAngle - currentAngle);
     }
 
-    private void checkForCollision() {
+    /**
+     * Check for collision with entities.
+     */
+    private void checkForCollision() { // checkstyle >:(
         if (weapon.owner instanceof Player) {
             for (Enemy enemy : Game.enemies) {
-                if (Engine.collisionCirc(body, enemy.getBody())) {
+                if (Engine.collisionCirc(body, enemy.getBody())
+                    && !hasHit.contains(enemy)) {
                     enemy.takeDamage(weapon.damage);
+                    hasHit.add(enemy);
                 }
             }
         } else {
-            if (Engine.collisionCirc(body, Game.player.getBody())) {
+            if (Engine.collisionCirc(body, Game.player.getBody()) 
+                && !hasHit.contains(Game.player)) {
+
                 Game.player.takeDamage(weapon.damage);
+                hasHit.add(Game.player);
+
             }
         }
     }
