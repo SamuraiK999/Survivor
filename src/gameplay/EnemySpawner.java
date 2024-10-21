@@ -15,8 +15,6 @@ import utility.EH;
  */
 public class EnemySpawner {
 
-    private static EnemySpawner instance;
-
     private Player player;
     private ArrayList<Enemy> enemies;
 
