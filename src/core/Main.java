@@ -30,7 +30,7 @@ public class Main extends JPanel {
     public void setUpWindow() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setPreferredSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(1000, 800));
 
         frame.add(this);
 

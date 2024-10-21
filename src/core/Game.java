@@ -22,7 +22,9 @@ public class Game {
 
     public static ArrayList<Entity> entities = new ArrayList<>();
 
-    public static Player player = new Player(new Circle(400, 300, Entity.getDefaultRadius()));
+    public static Player player = new Player(
+        new Rect(400, 300, Entity.getDefaultWidth(), Entity.getDefaultHeight())
+        );
 
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static List<Enemy> enemiesToRemove = new ArrayList<>();
@@ -36,18 +38,21 @@ public class Game {
 
     private static Point2D.Float camera = new Point2D.Float(0, 0);
 
+    private EnemySpawner enemySpawner = new EnemySpawner();
+
     /**
      * Constructor.
      */
     public Game() {
         player.setWeapon(new RangedWeapon(10, 50));
-        EnemySpawner.getInstance().startSpawning();
     }
 
     /**
      * Handles game logic.
      */
     public void update() {
+        enemySpawner.update();
+
         entities.clear();
         entities.add(player);
         
@@ -60,7 +65,7 @@ public class Game {
 
         player.update();
 
-        cameraFollow(player.getBody());
+        cameraFollow(player.getHitbox());
         
         for (Bullet b : bullets) {
             b.update();
@@ -79,6 +84,11 @@ public class Game {
      * Render everything.
      */
     public void draw(Graphics g) {
+
+        for (Slash s : slashes) {
+            s.draw(g);
+        }
+
         player.draw(g);
 
         for (Enemy enemy : enemies) {
@@ -87,10 +97,6 @@ public class Game {
 
         for (Bullet bullet : bullets) {
             bullet.draw(g);
-        }
-
-        for (Slash s : slashes) {
-            s.draw(g);
         }
     }
 
@@ -109,10 +115,10 @@ public class Game {
      */
     public static void cameraFollow(Rect target) {
         float newX = Engine.lerp(camera.x,
-                target.x + target.width / 2 + Main.frame.getWidth() / 2,
+                -(target.x + target.width / 2) + Main.frame.getWidth() / 2,
                 0.1f);
         float newY = Engine.lerp(camera.y,
-                target.y + target.width / 2 + Main.frame.getHeight() / 2,
+                -(target.y + target.height / 2) + Main.frame.getHeight() / 2,
                 0.1f);
 
         camera.setLocation(newX, newY);

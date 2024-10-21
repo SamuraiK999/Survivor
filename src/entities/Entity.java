@@ -3,38 +3,59 @@ package entities;
 import core.Game;
 import gear.Weapon;
 import java.awt.Graphics;
-import shapes.Circle;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import shapes.Rect;
+import utility.Direction;
+import utility.EH;
 import utility.Engine;
+import utility.IM;
 
 /**
- * The class from which all other entity classes derive of.
+ * The class from which all other entity classes derive from.
  */
 public abstract class Entity {
 
-    protected Circle body;
+    protected Rect hitbox;
     protected Weapon weapon;
 
     protected float maxHealth = 100;
     protected float health = maxHealth;
     protected float armor = 10; // a percentage
     protected float speed = 6; // movement speed
+    
+    public State currentState = State.IDLE;
+    protected boolean isAnimationLocked = false;
+    private int facing = 1;
 
-    private static int defaultEntityRadius = 25;
+    protected ArrayList<BufferedImage> idle = new ArrayList<>();
+    protected ArrayList<BufferedImage> running = new ArrayList<>();
+    protected ArrayList<BufferedImage> attacking = new ArrayList<>();
+    protected ArrayList<BufferedImage> dying = new ArrayList<>();
 
-    // texture/color
+    protected boolean isFinished = false;
+
+    private BufferedImage currentFrame;
+
+    private int animIndex = 0;
+
+    private static int defaultEntityWidth = 40;
+    private static int defaultEntityHeigth = 100;
+
 
     /**
      * Constructor.
      */
-    public Entity(Circle body) {
-        this.body = body;
+    public Entity(Rect hitbox) {
+        this.hitbox = hitbox;
     }
 
     /**
      * Getter for the body.
      */
-    public Circle getBody() {
-        return body;
+    public Rect getHitbox() {
+        return hitbox;
     }
 
     /**
@@ -43,20 +64,111 @@ public abstract class Entity {
     public void update() {
         weapon.update();
         handleClipping();
+        if (EH.getTick() % 5 == 0) {
+            switchFrame();
+        }
     }
 
     /**
      * Draw the entity.
      */
     public void draw(Graphics g) {
-        // g.setColor(color); - if it will be just a color and not an image
-        body.drawRelative(g);
+        hitbox.drawRelative(g);
+
+        if (currentFrame != null) {
+            IM.drawRotatedImage(g, currentFrame, 
+                new Point((int) (hitbox.getRelative().x + hitbox.width / 2), 
+                          (int) (hitbox.getRelative().y + 4)),
+                1.5 * facing, 1.5, 0);
+        }
+    }
+
+    /**
+     * Handle animations.
+     */
+    private void switchFrame() {
+        currentFrame = nextFrame();
+    }
+
+    /**
+     * Determine the next frame of the animation.
+     */
+    public BufferedImage nextFrame() {
+
+        animIndex++;
+        ArrayList<BufferedImage> animArray;
+
+        switch (currentState) {
+            case IDLE:
+                animArray = idle;
+                break;
+
+            case WALKING:
+                animArray = running;
+                break;
+
+            case ATTACKING:
+                animArray = attacking;
+                break;
+
+            case DYING:
+                animArray = dying;
+                break;
+        
+            default:
+                animArray = idle;
+                break;
+        }
+
+        if (animIndex > animArray.size() - 1) {
+            if (currentState != State.DYING) {
+                animIndex = 0;
+                isAnimationLocked = false;
+            } else {
+                animIndex = animArray.size() - 1;
+            }
+            isFinished = true;
+        } else {
+            isFinished = false;
+        }
+
+        return animArray.get(animIndex);
+    }
+
+    /**
+     * Switch the animation state.
+     */
+    public void switchState(State newState) {
+        if (isAnimationLocked) {
+            return;
+        }
+        if (newState == State.ATTACKING || newState == State.DYING) {
+            isAnimationLocked = true;
+        }
+        animIndex = 0;
+        currentState = newState;
     }
 
     /**
      * Move the entity in one of 8 directions; x & y should be between -1 & 1.
      */
     public void move(float x, float y) {
+        
+        if (health <= 0) {
+            return;
+        }
+
+        if (x == 0 && y == 0) {
+            if (currentState != State.IDLE) {
+                switchState(State.IDLE);
+                return;
+            }
+        } else {
+            if (currentState != State.WALKING) {
+                switchState(State.WALKING);
+            }
+        }
+
         // calculating magnitude
         float magnitude = (float) Math.sqrt(x * x + y * y);
 
@@ -66,16 +178,36 @@ public abstract class Entity {
             y /= magnitude;
         }
 
+        // setting direction for the animation
+        if (x > 0) {
+            setDirection(Direction.RIGHT);
+        }
+        if (x < 0) {
+            setDirection(Direction.LEFT);
+        }
+
         // moving the body
-        body.x += x * speed / 2;
-        body.y -= y * speed / 2;
+        hitbox.x += x * speed / 2;
+        hitbox.y -= y * speed / 2;
     }
 
     /**
      * Experimental. Same as move(), but smooth.
-     * Currently used only to handle clipping
+     * Used only to handle clipping
      */
     public void moveLerp(float x, float y) {
+
+        if (x == 0 && y == 0) {
+            if (currentState != State.IDLE) {
+                switchState(State.IDLE);
+            }
+            return;
+        } else {
+            if (currentState != State.WALKING) {
+                switchState(State.WALKING);
+            }
+        }
+
         // calculating magnitude
         float magnitude = (float) Math.sqrt(x * x + y * y);
 
@@ -86,8 +218,8 @@ public abstract class Entity {
         }
 
         // moving the body
-        body.x = Engine.lerp(body.x, body.x + x * 2, speed / 7);
-        body.y = Engine.lerp(body.y, body.y - y * 2, speed / 7);
+        hitbox.x = Engine.lerp(hitbox.x, hitbox.x + x * 2, speed / 7);
+        hitbox.y = Engine.lerp(hitbox.y, hitbox.y - y * 2, speed / 7);
     }
 
     /**
@@ -96,8 +228,8 @@ public abstract class Entity {
     public void handleClipping() {
         for (Entity e : Game.entities) {
             if (e != this) {
-                if (Engine.collisionCirc(body, e.getBody())) {
-                    moveLerp(-(e.getBody().x - body.x), (e.getBody().y - body.y));
+                if (Engine.collisionRect(hitbox, e.getHitbox())) {
+                    moveLerp(-(e.getHitbox().x - hitbox.x), (e.getHitbox().y - hitbox.y));
                 }
             }
         }
@@ -115,7 +247,19 @@ public abstract class Entity {
      * Use the weapon in a direction.
      */
     public void useWeapon(float x, float y) {
-        weapon.use(x - body.x, body.y - y);
+        if (health <= 0) {
+            return;
+        }
+
+        // setting direction for the animation
+        if (x - hitbox.x > 0) {
+            setDirection(Direction.RIGHT);
+        }
+        if (x - hitbox.x < 0) {
+            setDirection(Direction.LEFT);
+        }
+
+        weapon.use(x - hitbox.x, hitbox.y - y);
     }
 
     /**
@@ -124,6 +268,7 @@ public abstract class Entity {
     public void takeDamage(float damage) {
         float dmg = Engine.clamp(damage * (100 - armor) / 100, 0, maxHealth);
         health -= dmg;
+
         if (health <= 0) {
             health = 0;
             die();
@@ -133,9 +278,30 @@ public abstract class Entity {
     /**
      * Death.
      */
-    public abstract void die();
+    public void die() {
+        switchState(State.DYING);
+    }
 
-    public static int getDefaultRadius() {
-        return defaultEntityRadius;
+    public static int getDefaultWidth() {
+        return defaultEntityWidth;
+    }
+
+    public static int getDefaultHeight() {
+        return defaultEntityHeigth;
+    }
+
+    /**
+     * Setting the direction at which the entity is looking.
+     */
+    protected void setDirection(Direction newDirection) {
+        if (newDirection == Direction.RIGHT) {
+            facing = 1;
+        } else {
+            facing = -1;
+        }
+    }
+
+    public int getDirection() {
+        return facing;
     }
 }

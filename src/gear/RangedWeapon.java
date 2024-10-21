@@ -1,7 +1,8 @@
 package gear;
 
 import core.Game;
-import shapes.Circle;
+import entities.State;
+import shapes.Rect;
 
 /**
  * Ranged weapon class.
@@ -18,8 +19,16 @@ public class RangedWeapon extends Weapon {
             return;
         }
 
+        if (owner.currentState != State.ATTACKING) {
+            owner.switchState(State.ATTACKING);
+        }
+
         Game.bullets.add(
-                new Bullet(new Circle(owner.getBody().x, owner.getBody().y, 5), this, x, y));
+                new Bullet(
+                    new Rect(owner.getHitbox().x + owner.getHitbox().width / 2, 
+                    owner.getHitbox().y + owner.getHitbox().height / 2, 
+                    10, 10), 
+                    this, x, y));
 
         reload();
     }

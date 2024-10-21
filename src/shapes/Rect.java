@@ -39,13 +39,17 @@ public class Rect {
      */
     public void drawRelative(Graphics g) {
         g.fillRect(
-            (int) (x - Game.getCamera().x), 
-            (int) (y - Game.getCamera().y), 
+            (int) (getRelative().x), 
+            (int) (getRelative().y), 
             (int) width, 
             (int) height);
     }
 
-    public Point getCenterredCordinates() {
+    public Point getCentered() {
         return new Point((int) (x + width / 2), (int) (y + height / 2));
+    }
+
+    public Rect getRelative() {
+        return new Rect(x + Game.getCamera().x, y + Game.getCamera().y, width, height);
     }
 }

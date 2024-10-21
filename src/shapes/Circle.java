@@ -37,10 +37,14 @@ public class Circle {
      */
     public void drawRelative(Graphics g) {
         g.fillArc(
-            (int) (x - r + Game.getCamera().x), 
-            (int) (y - r + Game.getCamera().y),
+            (int) (getRelative().x - r), 
+            (int) (getRelative().y - r),
             (int) r * 2, 
             (int) r * 2, 
             0, 360);
+    }
+
+    public Circle getRelative() {
+        return new Circle(x + Game.getCamera().x, y + Game.getCamera().y, r);
     }
 }

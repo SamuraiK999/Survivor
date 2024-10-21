@@ -32,8 +32,8 @@ public class Button {
         body.draw(g);
         g.setColor(Color.white);
         g.drawString(
-            label, (int) body.getCenterredCordinates().x,
-                   (int) body.getCenterredCordinates().y);
+            label, (int) body.getCentered().x,
+                   (int) body.getCentered().y);
     }
 
     private void use() {

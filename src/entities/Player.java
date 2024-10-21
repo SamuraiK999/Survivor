@@ -1,19 +1,28 @@
 package entities;
 
 import java.awt.event.KeyEvent;
-import shapes.Circle;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import shapes.Rect;
 import utility.EH;
+import utility.IM;
 
 /**
  * Player.
  */
 public class Player extends Entity {
 
+    protected ArrayList<BufferedImage> shooting = new ArrayList<>();
+
     /**
      * Constructor.
      */
-    public Player(Circle body) {
-        super(body);
+    public Player(Rect hitbox) {
+        super(hitbox);
+        idle = IM.playerIdle;
+        running = IM.playerRunning;
+        attacking = IM.playerShooting;
+        dying = IM.playerDying;
     }
 
     @Override
@@ -24,7 +33,8 @@ public class Player extends Entity {
 
     @Override
     public void die() {
-        System.out.println("rip bozo");
+        super.die();
+        System.out.println("rip bozo - Player.java die()");
     }
 
     private void handleInput() {
@@ -36,6 +46,11 @@ public class Player extends Entity {
      * Handle input for movement.
      */
     private void movementInput() { // can we remove that from the checkstyle pretty please xd
+
+        if (health <= 0) {
+            return;
+        }
+
         float x = 0; // horizontal dir
         float y = 0; // vertical dir
 
@@ -69,8 +84,8 @@ public class Player extends Entity {
      */
     private void shootingInput() {
         if (EH.isMousePressed()) {
-            useWeapon(EH.getMouseCoordinatesRelative().x + body.x,
-                    EH.getMouseCoordinatesRelative().y + body.y);
+            useWeapon(EH.getMouseCoordinatesRelative().x + hitbox.x,
+                    EH.getMouseCoordinatesRelative().y + hitbox.y);
         }
     }
 }

@@ -1,7 +1,9 @@
 package gear;
 
 import core.Game;
-import shapes.Circle;
+import entities.Entity;
+import entities.State;
+import shapes.Rect;
 
 /**
  * Melee weapon class.
@@ -17,9 +19,17 @@ public class MeleeWeapon extends Weapon {
         if (cooldown > 0) {
             return;
         }
+
+        if (owner.currentState != State.ATTACKING) {
+            owner.switchState(State.ATTACKING);
+        }
         
         Game.slashes.add(
-                new Slash(new Circle(owner.getBody().x, owner.getBody().y, 50), this, x, y));
+            new Slash(
+                new Rect(owner.getHitbox().x + owner.getDirection() * owner.getHitbox().width, 
+                        owner.getHitbox().y, 
+                        Entity.getDefaultWidth(), Entity.getDefaultHeight()), 
+                this, x, y));
 
         reload();
     }

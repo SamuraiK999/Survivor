@@ -22,6 +22,7 @@ import shapes.Button;
  */
 public class EH implements ActionListener, KeyListener, MouseListener, MouseMotionListener {
 
+    private static int tick = 0;
     private Timer timer = new Timer(10, this);
     private static EH instance;
     private static boolean[] isPressed = new boolean[256];
@@ -74,6 +75,10 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
         return instance;
     }
 
+    public static int getTick() {
+        return tick;
+    }
+
     public static void setGameReference(Game g) {
         game = g;
     }
@@ -96,6 +101,7 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void actionPerformed(ActionEvent e) {
         game.update();
+        tick++;
     }
 
     @Override

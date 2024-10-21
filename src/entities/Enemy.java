@@ -2,19 +2,28 @@ package entities;
 
 import core.Game;
 import gear.MeleeWeapon;
-import shapes.Circle;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import shapes.Rect;
+import utility.IM;
 
 /**
  * Enemy.
  */
 public class Enemy extends Entity {
 
+    protected ArrayList<BufferedImage> walking = new ArrayList<>();
+
     /**
      * Contructor.
      */
-    public Enemy(Circle body) {
-        super(body);
+    public Enemy(Rect hitbox) {
+        super(hitbox);
         speed = 1;
+        idle = IM.playerIdle;
+        running = IM.playerRunning;
+        attacking = IM.playerShooting;
+        dying = IM.playerDying;
     }
 
     @Override
@@ -26,13 +35,15 @@ public class Enemy extends Entity {
 
     @Override
     public void die() {
-        System.out.println("-1");
-        Game.enemiesToRemove.add(this);
+        super.die();
+        if (isFinished) {
+            Game.enemiesToRemove.add(this);
+        }
     }
 
     private void movementAI() {
         if (weapon instanceof MeleeWeapon) {
-            move(Game.player.getBody().x - body.x, -(Game.player.getBody().y - body.y));
+            move(Game.player.getHitbox().x - hitbox.x, -(Game.player.getHitbox().y - hitbox.y));
         }
     }
 
@@ -40,6 +51,6 @@ public class Enemy extends Entity {
      * Always shoot.
      */
     private void shooting() {
-        this.useWeapon(Game.player.getBody().x, Game.player.getBody().y);
+        this.useWeapon(Game.player.getHitbox().x, Game.player.getHitbox().y);
     }
 }

@@ -4,7 +4,7 @@ import core.Game;
 import entities.Enemy;
 import entities.Player;
 import java.awt.Graphics;
-import shapes.Circle;
+import shapes.Rect;
 import utility.Engine;
 
 /**
@@ -12,7 +12,7 @@ import utility.Engine;
  */
 public class Bullet {
 
-    private Circle body;
+    private Rect hitbox;
     private Weapon weapon;
     
     private float dirX;
@@ -22,8 +22,8 @@ public class Bullet {
     /**
      * Constructor.
      */
-    public Bullet(Circle body, Weapon weapon, float dirX, float dirY) {
-        this.body = body;
+    public Bullet(Rect hitbox, Weapon weapon, float dirX, float dirY) {
+        this.hitbox = hitbox;
         this.weapon = weapon;
         this.dirX = dirX;
         this.dirY = dirY;
@@ -38,7 +38,7 @@ public class Bullet {
     }
 
     public void draw(Graphics g) {
-        body.drawRelative(g);
+        hitbox.drawRelative(g);
     }
 
     private void move() {
@@ -52,20 +52,20 @@ public class Bullet {
         }
 
         // moving the body
-        body.x += dirX * speed;
-        body.y -= dirY * speed;
+        hitbox.x += dirX * speed;
+        hitbox.y -= dirY * speed;
     }
 
     private void checkForCollision() {
         if (weapon.owner instanceof Player) {
             for (Enemy enemy : Game.enemies) {
-                if (Engine.collisionCirc(body, enemy.getBody())) {
+                if (Engine.collisionRect(hitbox, enemy.getHitbox())) {
                     enemy.takeDamage(weapon.damage);
                     Game.bulletsToRemove.add(this);
                 }
             }
         } else {
-            if (Engine.collisionCirc(body, Game.player.getBody())) {
+            if (Engine.collisionRect(hitbox, Game.player.getHitbox())) {
                 Game.player.takeDamage(weapon.damage);
                 Game.bulletsToRemove.add(this);
             }

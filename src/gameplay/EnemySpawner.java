@@ -7,9 +7,8 @@ import entities.Player;
 import gear.MeleeWeapon;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import shapes.Circle;
+import shapes.Rect;
+import utility.EH;
 
 /**
  * Handles spawning the waves of enemies.
@@ -26,12 +25,12 @@ public class EnemySpawner {
     private int spawnRadius;
     private int spawnInterval;
     private Random random;
-    private Timer timer;
+    private int timer;
 
     /**
      * Constructor.
      */
-    private EnemySpawner() {
+    public EnemySpawner() {
         player = Game.player;
         enemies = Game.enemies;
 
@@ -42,33 +41,22 @@ public class EnemySpawner {
         spawnInterval = 1; // 1 minute
         spawnInterval *= 60 * 1000; // transform into ms
         random = new Random();
-        timer = new Timer();
+        timer = EH.getTick();
+        spawnEnemy();
     }
-
+    
     /**
-     * Get the single instance of the class.
+     * Update.
      */
-    public static EnemySpawner getInstance() {
-        if (instance == null) {
-            instance = new EnemySpawner();
-        }
-        return instance;
-    }
-
-    /**
-     * Begin the spawning cycle.
-     */
-    public void startSpawning() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (int i = 0; i < waveSize; i++) {
-                    spawnEnemy();
-                }
-                //waveInd++;
-                waveSize = (int) Math.floor(waveSize * 1.5);
+    public void update() {
+        if (EH.getTick() - timer > spawnInterval) { // Spawn every n minutes
+            for (int i = 0; i < waveSize; i++) {
+                spawnEnemy();
             }
-        }, 0, spawnInterval); // Spawn every 5 minutes
+            //waveInd++;
+            waveSize = (int) Math.floor(waveSize * 1.5);
+            timer = EH.getTick();
+        }
     }
 
     /**
@@ -78,10 +66,10 @@ public class EnemySpawner {
         double angle = random.nextDouble() * 2 * Math.PI;
 
         // caluculate enemy spawn coordinates
-        int x = (int) (player.getBody().x + spawnRadius * Math.cos(angle));
-        int y = (int) (player.getBody().y + spawnRadius * Math.sin(angle));
+        int x = (int) (player.getHitbox().x + spawnRadius * Math.cos(angle));
+        int y = (int) (player.getHitbox().y + spawnRadius * Math.sin(angle));
 
-        enemies.add(new Enemy(new Circle(x, y, Entity.getDefaultRadius())));
+        enemies.add(new Enemy(new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight())));
         enemies.get(enemies.size() - 1).setWeapon(new MeleeWeapon(10, 200));;
     }
 }
