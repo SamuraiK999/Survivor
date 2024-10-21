@@ -1,6 +1,7 @@
 package utility;
 
 import core.Game;
+import core.GameState;
 import core.Main;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -28,7 +29,6 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     private static boolean[] isPressed = new boolean[256];
     private static Point mouseCoordinates = new Point(0, 0);
     private static boolean isMousePressed;
-    private static Game game;
 
     // basically listeners for the callbacks
     private static List<Button> buttons = new ArrayList<>();
@@ -79,10 +79,6 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
         return tick;
     }
 
-    public static void setGameReference(Game g) {
-        game = g;
-    }
-
     @Override
     public void keyTyped(KeyEvent e) {
         // leave empty
@@ -100,7 +96,15 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        game.update();
+        switch (Main.gameState) {
+            case START_MENU:
+                Main.menu.update();
+                break;
+            case GAME:
+                Main.game.update();;
+            default:
+                break;
+        }
         tick++;
     }
 
@@ -129,7 +133,7 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void mouseReleased(MouseEvent e) {
         isMousePressed = false;
-        if (buttons.size() > 0) {
+        if (buttons.size() > 0 && Main.gameState == GameState.START_MENU) {
             for (Button b : buttons) {
                 b.onMouseReleased();
             }

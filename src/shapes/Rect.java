@@ -46,10 +46,19 @@ public class Rect {
     }
 
     public Point getCentered() {
-        return new Point((int) (x + width / 2), (int) (y + height / 2));
+        return new Point((int) (x + width/2), (int) (y+height/2));
     }
 
     public Rect getRelative() {
         return new Rect(x + Game.getCamera().x, y + Game.getCamera().y, width, height);
+    }
+
+    /*
+     * tova setva novi cordinati na body v menuto
+     */
+    public Rect setLocation(int x, int y){
+        this.x = x;
+        this.y = y;
+        return this;
     }
 }
