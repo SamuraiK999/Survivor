@@ -10,15 +10,15 @@ import utility.EH;
 public class Main extends JPanel {
 
     public static JFrame frame = new JFrame("MAZNA");
-    Game game = new Game();
-
+    public static Game game;
+    public static GameMenu menu = new GameMenu();
+    public static GameState gameState = GameState.START_MENU;
     /**
      *  Constructor.
      */
     public Main() {
         setUpWindow();
         setFocusable(true);
-        EH.setGameReference(game);
         addKeyListener(EH.getInstance());
         addMouseListener(EH.getInstance());
         addMouseMotionListener(EH.getInstance());
@@ -42,7 +42,15 @@ public class Main extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        game.draw(g);
+        switch (gameState) {
+            case START_MENU:
+                menu.draw(g);
+                break;
+            case GAME:
+                game.draw(g);
+            default:
+                break;
+        }
         repaint();
     }
 
