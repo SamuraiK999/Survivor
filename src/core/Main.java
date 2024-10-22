@@ -31,10 +31,6 @@ public class Main extends JPanel {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        GraphicsDevice gd = GraphicsEnvironment
-                .getLocalGraphicsEnvironment()
-                .getDefaultScreenDevice();
-
         frame.setUndecorated(true);
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGTH));
 

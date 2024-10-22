@@ -1,7 +1,6 @@
 package gameplay.entities;
 
 import core.states.Game;
-import gameplay.gear.MeleeWeapon;
 import java.util.Random;
 import shapes.Rect;
 import utility.Engine;
@@ -48,15 +47,13 @@ public class Enemy extends Entity {
     }
 
     private void movementAI() {
-        if (weapon instanceof MeleeWeapon) {
-            if (Engine.distance(Game.getPlayer().getHitbox(), hitbox) < 500) {
-                dormant = false;
-            }
+        if (Engine.distance(Game.getPlayer().getHitbox(), hitbox) < 500) {
+            dormant = false;
+        }
             
-            if (Game.getPlayer().getState() == State.ATTACKING
-                && Engine.distance(Game.getPlayer().getHitbox(), hitbox) < 1000) {
-                dormant = false;
-            }
+        if (Game.getPlayer().getState() == State.ATTACKING
+            && Engine.distance(Game.getPlayer().getHitbox(), hitbox) < 1000) {
+            dormant = false;
         }
 
         if (!dormant) {

@@ -71,4 +71,8 @@ public class EnemySpawner {
             new Enemy(new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight() - 10)));
         enemies.get(enemies.size() - 1).setWeapon(new MeleeWeapon(10, 100));;
     }
+
+    public int getWaveInd() {
+        return waveInd;
+    }
 }

@@ -112,10 +112,10 @@ public abstract class Entity {
                 setState(State.IDLE);
                 return;
             }
-        } else {
-            if (currentState != State.RUNNING) {
-                setState(State.RUNNING);
-            }
+        }
+        
+        if (currentState != State.RUNNING) {
+            setState(State.RUNNING);
         }
 
         // calculating magnitude
@@ -216,10 +216,10 @@ public abstract class Entity {
                 setState(State.IDLE);
             }
             return;
-        } else {
-            if (currentState != State.RUNNING) {
-                setState(State.RUNNING);
-            }
+        }
+
+        if (currentState != State.RUNNING) {
+            setState(State.RUNNING);
         }
 
         // calculating magnitude
