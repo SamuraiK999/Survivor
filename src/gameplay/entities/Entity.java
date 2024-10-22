@@ -110,8 +110,8 @@ public abstract class Entity {
         if (x == 0 && y == 0) {
             if (currentState != State.IDLE) {
                 setState(State.IDLE);
-                return;
             }
+            return;
         }
         
         if (currentState != State.RUNNING) {
