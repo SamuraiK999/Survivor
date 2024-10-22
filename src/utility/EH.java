@@ -1,7 +1,7 @@
 package utility;
 
-import core.Game;
 import core.GameState;
+import core.GameStateManager;
 import core.Main;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Timer;
-import shapes.Button;
+import ui.Button;
 
 /**
  * EventHandler
@@ -96,15 +96,7 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (Main.gameState) {
-            case START_MENU:
-                Main.menu.update();
-                break;
-            case GAME:
-                Main.game.update();;
-            default:
-                break;
-        }
+        GameStateManager.getInstance().update();
         tick++;
     }
 
@@ -133,7 +125,7 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void mouseReleased(MouseEvent e) {
         isMousePressed = false;
-        if (buttons.size() > 0 && Main.gameState == GameState.START_MENU) {
+        if (buttons.size() > 0 && GameStateManager.getState() == GameState.MAIN_MENU) {
             for (Button b : buttons) {
                 b.onMouseReleased();
             }

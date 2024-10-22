@@ -1,5 +1,8 @@
 package core;
 
+/**
+ * Enumerator for the states of the app.
+ */
 public enum GameState {
-    START_MENU, GAME
+    MAIN_MENU, GAME
 }

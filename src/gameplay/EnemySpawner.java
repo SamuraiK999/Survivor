@@ -1,10 +1,10 @@
 package gameplay;
 
-import core.Game;
-import entities.Enemy;
-import entities.Entity;
-import entities.Player;
-import gear.MeleeWeapon;
+import core.states.Game;
+import gameplay.entities.Enemy;
+import gameplay.entities.Entity;
+import gameplay.entities.Player;
+import gameplay.gear.MeleeWeapon;
 import java.util.ArrayList;
 import java.util.Random;
 import shapes.Rect;
@@ -18,7 +18,7 @@ public class EnemySpawner {
     private Player player;
     private ArrayList<Enemy> enemies;
 
-    //private int waveInd;
+    private int waveInd;
     private int waveSize;
     private int spawnRadius;
     private int spawnInterval;
@@ -29,15 +29,15 @@ public class EnemySpawner {
      * Constructor.
      */
     public EnemySpawner() {
-        player = Game.player;
+        player = Game.getPlayer();
         enemies = Game.enemies;
 
-        //waveInd = 1;
+        waveInd = 1;
         waveSize = 1;
 
-        spawnRadius = 200;
+        spawnRadius = 1100;
         spawnInterval = 1; // 1 minute
-        spawnInterval *= 60 * 1000; // transform into ms
+        spawnInterval *= 60 * 10; // transform into ms
         random = new Random();
         timer = EH.getTick();
         spawnEnemy();
@@ -51,8 +51,8 @@ public class EnemySpawner {
             for (int i = 0; i < waveSize; i++) {
                 spawnEnemy();
             }
-            //waveInd++;
-            waveSize = (int) Math.floor(waveSize * 1.5);
+            waveInd++;
+            waveSize++;
             timer = EH.getTick();
         }
     }
@@ -67,7 +67,8 @@ public class EnemySpawner {
         int x = (int) (player.getHitbox().x + spawnRadius * Math.cos(angle));
         int y = (int) (player.getHitbox().y + spawnRadius * Math.sin(angle));
 
-        enemies.add(new Enemy(new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight())));
-        enemies.get(enemies.size() - 1).setWeapon(new MeleeWeapon(10, 200));;
+        enemies.add(
+            new Enemy(new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight() - 10)));
+        enemies.get(enemies.size() - 1).setWeapon(new MeleeWeapon(10, 100));;
     }
 }

@@ -10,11 +10,11 @@ import utility.EH;
 public class Main extends JPanel {
 
     public static JFrame frame = new JFrame("MAZNA");
-    public static Game game;
-    public static GameMenu menu = new GameMenu();
-    public static GameState gameState = GameState.START_MENU;
+    public static final int FRAME_WIDTH = 1920;
+    public static final int FRAME_HEIGTH = 1080;
+
     /**
-     *  Constructor.
+     * Constructor.
      */
     public Main() {
         setUpWindow();
@@ -28,9 +28,15 @@ public class Main extends JPanel {
      * Setting up the game window using swing.
      */
     public void setUpWindow() {
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setPreferredSize(new Dimension(1000, 800));
+        GraphicsDevice gd = GraphicsEnvironment
+                .getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice();
+
+        frame.setUndecorated(true);
+        setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGTH));
 
         frame.add(this);
 
@@ -42,15 +48,8 @@ public class Main extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        switch (gameState) {
-            case START_MENU:
-                menu.draw(g);
-                break;
-            case GAME:
-                game.draw(g);
-            default:
-                break;
-        }
+        GameStateManager.getInstance().draw(g);
+
         repaint();
     }
 

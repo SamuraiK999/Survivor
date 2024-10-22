@@ -1,6 +1,6 @@
 package shapes;
 
-import core.Game;
+import core.states.Game;
 import java.awt.Graphics;
 
 /**
