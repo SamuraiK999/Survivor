@@ -1,22 +1,24 @@
-package core.states;
+package ui;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-import ui.Button;
 
+/**
+ * The main class from which all menus derive.
+ */
 public abstract class Menu {
     public ArrayList<Button> buttons = new ArrayList<>();
 
     public Menu(){
-        initializeMenu();
+        init();
     }
 
-    protected void initializeMenu() {
+    protected void init() {
 
     }
 
-    /*
-     * Updates 
+    /**
+     * Update.
      */
     public void update() {
         for (Button b : buttons) {
@@ -24,8 +26,8 @@ public abstract class Menu {
         }
     }
 
-    /*
-     * DRAW
+    /**
+     * Draw.
      */
     public void draw(Graphics g) {
         for (Button b : buttons) {

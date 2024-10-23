@@ -42,16 +42,27 @@ public class Game {
 
     private static Point2D.Float camera = new Point2D.Float(0, 0);
 
-    private EnemySpawner enemySpawner = new EnemySpawner();
+    private static EnemySpawner enemySpawner = new EnemySpawner();
 
     /**
      * Constructor.
      */
     public Game() {
-        player = new Player(
-        new Rect(0, 0, Entity.getDefaultWidth(), Entity.getDefaultHeight())
-        );
+        init();
+    }
+
+    /**
+     * Init.
+     */
+    public static void init() {
+        entities = new ArrayList<>();
+
+        player = new Player(new Rect(0, 0, Entity.getDefaultWidth(), Entity.getDefaultHeight()));
         player.setWeapon(new RangedWeapon(34, 10, new Point(0, -26)));
+        enemies = new ArrayList<>();
+        bullets = new ArrayList<>();
+        slashes = new ArrayList<>();
+        enemySpawner = new EnemySpawner();
     }
 
     /**
@@ -88,7 +99,7 @@ public class Game {
         slashes.removeAll(slashesToRemove);
         slashesToRemove.clear();
 
-        if(deathMenu != null){
+        if (deathMenu != null) {
             deathMenu.update();
         }
     }
@@ -115,7 +126,7 @@ public class Game {
 
         map.drawOverlay(g);
 
-        if(deathMenu != null){
+        if (deathMenu != null) {
             deathMenu.draw(g);
         }
     }
@@ -138,14 +149,14 @@ public class Game {
                 Engine.lerp(camera.x,
                         -(target.x + target.width / 2) + Main.frame.getWidth() / 2,
                         0.1f),
-                IM.backgroundMap.getWidth() / 2, 
+                IM.backgroundMap.getWidth() / 2,
                 IM.backgroundMap.getWidth() / 2 * 3);
-                
+
         float newY = Engine.clamp(
                 Engine.lerp(camera.y,
                         -(target.y + target.height / 2) + Main.frame.getHeight() / 2,
                         0.1f),
-                -IM.backgroundMap.getHeight() / 2 + Entity.getDefaultHeight(), 
+                -IM.backgroundMap.getHeight() / 2 + Entity.getDefaultHeight(),
                 IM.backgroundMap.getHeight() / 2 * 3);
 
         camera.setLocation(newX, newY);
@@ -159,8 +170,11 @@ public class Game {
         return player;
     }
 
-    public static void createDeathMenu(){
-        if(deathMenu == null){
+    /**
+     * Inits a post-death menu.
+     */
+    public static void createDeathMenu() {
+        if (deathMenu == null) {
             deathMenu = new DeathMenu();
         }
     }

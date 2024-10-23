@@ -2,7 +2,6 @@ package gameplay.gear;
 
 import core.states.Game;
 import gameplay.entities.Enemy;
-import gameplay.entities.Entity;
 import gameplay.entities.Player;
 import gameplay.map.Immovable;
 import java.awt.*;
@@ -60,7 +59,7 @@ public class Bullet {
     /**
      * Checking for collision with an apropriate entity.
      */
-    private void checkForCollision() {
+    private void checkForCollision() { // checkstyle.
         if (weapon.owner instanceof Player) {
             for (Enemy enemy : Game.enemies) {
                 if (Engine.collisionRect(hitbox, enemy.getHitbox()) && enemy.getHealth() > 0) {

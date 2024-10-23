@@ -2,9 +2,8 @@ package core;
 
 import core.states.Game;
 import core.states.MainMenu;
-import utility.EH;
-
 import java.awt.Graphics;
+import utility.EH;
 
 /**
  * Manages the states of the app.
@@ -87,8 +86,24 @@ public class GameStateManager {
         return currentGameState;
     }
 
+    /**
+     * Switch the current game state.
+     */
     public static void setState(GameState newState) {
         EH.clearButtons();
         currentGameState = newState;
+
+        switch (currentGameState) {
+            case MAIN_MENU:
+                mainMenu.init();
+                break;
+
+            case GAME:
+                game.init();
+                break;
+        
+            default:
+                break;
+        }
     }
 }

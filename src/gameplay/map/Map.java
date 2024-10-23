@@ -76,9 +76,6 @@ public class Map {
         IM.drawRotatedImage(g, backgroundMap,
                 new Point((int) (Game.getCamera().x), (int) (Game.getCamera().y)),
                 3, 3, 0);
-        for (Immovable e : environment) {
-            //e.draw(g);
-        }
     }
 
     /**

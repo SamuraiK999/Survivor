@@ -13,6 +13,9 @@ public class RangedWeapon extends Weapon {
 
     Point muzzleOffset = new Point(0, 0);
 
+    /**
+     * Constructor.
+     */
     public RangedWeapon(float damage, float attackSpeed, Point muzzleOffset) {
         super(damage, attackSpeed);
         this.muzzleOffset = muzzleOffset;

@@ -1,10 +1,7 @@
 package gameplay.entities;
 
-import java.awt.event.KeyEvent;
-
-import core.GameState;
-import core.states.DeathMenu;
 import core.states.Game;
+import java.awt.event.KeyEvent;
 import shapes.Rect;
 import utility.EH;
 import utility.IM;
@@ -15,9 +12,6 @@ import utility.IM;
 public class Player extends Entity {
 
     private int timer;
-    
-    // to replace attacking, attacking becomes a melee attack
-    //protected ArrayList<BufferedImage> shooting = new ArrayList<>(); 
 
     /**
      * Constructor.
@@ -37,7 +31,7 @@ public class Player extends Entity {
     public void update() {
         super.update();
         handleInput();
-        if(EH.getTick() - timer > 20 && getState() == State.DYING){
+        if (EH.getTick() - timer > 20 && getState() == State.DYING) {
             Game.createDeathMenu();
         }
     }

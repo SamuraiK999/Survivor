@@ -5,10 +5,9 @@ import core.GameStateManager;
 import core.Main;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import shapes.Rect;
-import ui.Button;
 import ui.DificultyButton;
+import ui.Menu;
 import ui.PlayButton;
 import ui.QuitButton;
 import utility.IM;
@@ -18,46 +17,46 @@ import utility.IM;
  */
 public class MainMenu extends Menu {
 
-    BufferedImage manuBackground = IM.manuBackground;
+    BufferedImage mainMenuBackground = IM.mainMenuBackground;
 
     public MainMenu() {
         super();
     }
 
     @Override
-    protected void initializeMenu() {
+    public void init() {
         buttons.add(
-            new PlayButton(
-                new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2, 
-                    Main.FRAME_HEIGTH / 2 - 70, 
-                    IM.playButton.getWidth(), 
-                    IM.playButton.getHeight())));
-        
+                new PlayButton(
+                        new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2,
+                                Main.FRAME_HEIGTH / 2 - 70,
+                                IM.playButton.getWidth(),
+                                IM.playButton.getHeight())));
+
         buttons.add(
-            new DificultyButton(
-                new Rect(Main.FRAME_WIDTH / 2 - IM.difficultyButton.getWidth() / 2, 
-                    Main.FRAME_HEIGTH / 2, 
-                    IM.difficultyButton.getWidth(), 
-                    IM.difficultyButton.getHeight())));
-        
+                new DificultyButton(
+                        new Rect(Main.FRAME_WIDTH / 2 - IM.difficultyButton.getWidth() / 2,
+                                Main.FRAME_HEIGTH / 2,
+                                IM.difficultyButton.getWidth(),
+                                IM.difficultyButton.getHeight())));
+
         buttons.add(
-            new QuitButton(
-                new Rect(Main.FRAME_WIDTH / 2 - IM.quitButton.getWidth() / 2, 
-                    Main.FRAME_HEIGTH / 2 + 70, 
-                    IM.quitButton.getWidth(), 
-                    IM.quitButton.getHeight())));
+                new QuitButton(
+                        new Rect(Main.FRAME_WIDTH / 2 - IM.quitButton.getWidth() / 2,
+                                Main.FRAME_HEIGTH / 2 + 70,
+                                IM.quitButton.getWidth(),
+                                IM.quitButton.getHeight())));
     }
 
     @Override
-    public void update(){
-        if(GameStateManager.getState() == GameState.MAIN_MENU){
+    public void update() {
+        if (GameStateManager.getState() == GameState.MAIN_MENU) {
             super.update();
         }
     }
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(background, 0, 0, Main.FRAME_WIDTH, Main.FRAME_HEIGTH, null);
+        g.drawImage(mainMenuBackground, 0, 0, Main.FRAME_WIDTH, Main.FRAME_HEIGTH, null);
         super.draw(g);
     }
 }

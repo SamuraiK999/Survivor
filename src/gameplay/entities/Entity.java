@@ -262,14 +262,19 @@ public abstract class Entity {
             if (Engine.collisionRect(hitboxMovement, e.getHitbox())) {
                 float overlapX1 = Math.max(hitboxMovement.x, e.getHitbox().x);
                 float overlapY1 = Math.max(hitboxMovement.y, e.getHitbox().y);
-                float overlapX2 = Math.min(hitboxMovement.x + hitboxMovement.width,
+
+                float overlapX2 = Math.min(
+                        hitboxMovement.x + hitboxMovement.width,
                         e.getHitbox().x + e.getHitbox().width);
-                float overlapY2 = Math.min(hitboxMovement.y + hitboxMovement.height,
+                float overlapY2 = Math.min(
+                        hitboxMovement.y + hitboxMovement.height,
                         e.getHitbox().y + e.getHitbox().height);
 
                 // Calculate the center of the overlapping area
                 int collisionX = (int) (overlapX1 + overlapX2) / 2;
                 int collisionY = (int) (overlapY1 + overlapY2) / 2;
+
+                // Move the opposite direction from the point of collision
                 move(-(collisionX - hitboxMovement.getCentered().x),
                         (collisionY - hitboxMovement.getCentered().y));
             }
