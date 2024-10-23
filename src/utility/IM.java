@@ -30,6 +30,7 @@ public class IM {
     public static BufferedImage difficultyButton;
     public static BufferedImage quitButton;
     public static BufferedImage background;
+    public static BufferedImage returnmenuButton;
 
     public static BufferedImage backgroundMap;
     public static BufferedImage overlayMap;
@@ -150,6 +151,9 @@ public class IM {
 
             // For the quit button:
             quitButton = ImageIO.read(new File("img/ui/buttons/quitButton.png"));
+
+            //For the return menu Button
+            returnmenuButton = ImageIO.read(new File("img/ui/buttons/returnMenuButton.png"));
 
             // For the background
             background = ImageIO.read(new File("img/ui/background.png"));

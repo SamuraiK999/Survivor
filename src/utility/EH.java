@@ -125,7 +125,7 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void mouseReleased(MouseEvent e) {
         isMousePressed = false;
-        if (buttons.size() > 0 && GameStateManager.getState() == GameState.MAIN_MENU) {
+        if (buttons.size() > 0) {
             for (Button b : buttons) {
                 b.onMouseReleased();
             }
@@ -140,5 +140,9 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
+    }
+
+    public static void clearButtons() {
+        buttons.clear();
     }
 }
