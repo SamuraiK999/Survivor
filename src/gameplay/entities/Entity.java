@@ -237,8 +237,8 @@ public abstract class Entity {
         }
 
         // moving the body
-        hitbox.x = Engine.lerp(hitbox.x, hitbox.x + x * 2, speed / 2f);
-        hitbox.y = Engine.lerp(hitbox.y, hitbox.y - y * 2, speed / 2f);
+        hitbox.x = Engine.lerp(hitbox.x, hitbox.x + x, speed);
+        hitbox.y = Engine.lerp(hitbox.y, hitbox.y - y, speed);
     }
 
     /**

@@ -1,6 +1,7 @@
 package core;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import javax.swing.*;
 import utility.EH;
 
@@ -10,8 +11,8 @@ import utility.EH;
 public class Main extends JPanel {
 
     public static JFrame frame = new JFrame("MAZNA");
-    public static final int FRAME_WIDTH = 1920;
-    public static final int FRAME_HEIGTH = 1080;
+    public static int FRAME_WIDTH = 1920;
+    public static int FRAME_HEIGTH = 1080;
 
     /**
      * Constructor.
@@ -30,6 +31,18 @@ public class Main extends JPanel {
     public void setUpWindow() {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        GraphicsConfiguration gc = gd.getDefaultConfiguration();
+        AffineTransform at = gc.getDefaultTransform();
+
+        double scaleX = at.getScaleX();
+        double scaleY = at.getScaleY();
+
+        // Adjust the size of the window according to the DPI scaling factor
+        FRAME_WIDTH = (int) (1920 / scaleX);
+        FRAME_HEIGTH = (int) (1080 / scaleY);
 
         frame.setUndecorated(true);
         setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGTH));

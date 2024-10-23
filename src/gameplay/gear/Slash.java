@@ -22,12 +22,16 @@ public class Slash {
 
     private int timer = EH.getTick();
 
+    private Player player;
+
     /**
      * Constructor.
      */
     public Slash(Rect hitbox, Weapon weapon) {
         this.hitbox = hitbox;
         this.weapon = weapon;
+
+        player = Game.getPlayer();
     }
 
     /**
@@ -60,11 +64,11 @@ public class Slash {
                 }
             }
         } else {
-            if (Engine.collisionRect(hitbox, Game.getPlayer().getHitbox()) 
+            if (Engine.collisionRect(hitbox, player.getHitbox()) 
                 && !hasHit.contains(Game.getPlayer())) {
 
-                Game.getPlayer().takeDamage(weapon.damage);
-                hasHit.add(Game.getPlayer());
+                player.takeDamage(weapon.damage);
+                hasHit.add(player);
             }
         }
     }

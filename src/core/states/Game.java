@@ -16,6 +16,7 @@ import java.util.List;
 import shapes.Circle;
 import shapes.Rect;
 import utility.Engine;
+import utility.IM;
 
 /**
  * Game.
@@ -27,18 +28,16 @@ public class Game {
     public static ArrayList<Entity> entities = new ArrayList<>();
 
     private static Player player = new Player(
-        new Rect(0, 0, Entity.getDefaultWidth(), Entity.getDefaultHeight())
-        );
+            new Rect(0, 0, Entity.getDefaultWidth(), Entity.getDefaultHeight()));
 
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static List<Enemy> enemiesToRemove = new ArrayList<>();
 
     public static ArrayList<Bullet> bullets = new ArrayList<>();
     public static List<Bullet> bulletsToRemove = new ArrayList<>();
-    
+
     public static ArrayList<Slash> slashes = new ArrayList<>();
     public static List<Slash> slashesToRemove = new ArrayList<>();
-    
 
     private static Point2D.Float camera = new Point2D.Float(0, 0);
 
@@ -61,7 +60,7 @@ public class Game {
 
         entities.clear();
         entities.add(player);
-        
+
         for (Bullet b : bullets) {
             b.update();
         }
@@ -69,7 +68,7 @@ public class Game {
         bulletsToRemove.clear();
 
         player.update();
-        
+
         for (Enemy e : enemies) {
             entities.add(e);
             e.update();
@@ -120,15 +119,22 @@ public class Game {
     }
 
     /**
-     * Make the camera follow a target of type circle.
+     * Make the camera follow a target of type rect.
      */
     public static void cameraFollow(Rect target) {
-        float newX = Engine.lerp(camera.x,
-                -(target.x + target.width / 2) + Main.frame.getWidth() / 2,
-                0.1f);
-        float newY = Engine.lerp(camera.y,
-                -(target.y + target.height / 2) + Main.frame.getHeight() / 2,
-                0.1f);
+        float newX = Engine.clamp(
+                Engine.lerp(camera.x,
+                        -(target.x + target.width / 2) + Main.frame.getWidth() / 2,
+                        0.1f),
+                IM.backgroundMap.getWidth() / 2, 
+                IM.backgroundMap.getWidth() / 2 * 3);
+                
+        float newY = Engine.clamp(
+                Engine.lerp(camera.y,
+                        -(target.y + target.height / 2) + Main.frame.getHeight() / 2,
+                        0.1f),
+                -IM.backgroundMap.getHeight() / 2 + Entity.getDefaultHeight(), 
+                IM.backgroundMap.getHeight() / 2 * 3);
 
         camera.setLocation(newX, newY);
     }

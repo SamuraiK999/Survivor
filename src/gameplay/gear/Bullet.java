@@ -2,9 +2,9 @@ package gameplay.gear;
 
 import core.states.Game;
 import gameplay.entities.Enemy;
+import gameplay.entities.Entity;
 import gameplay.entities.Player;
 import gameplay.map.Immovable;
-
 import java.awt.*;
 import shapes.Rect;
 import utility.Engine;
@@ -20,6 +20,8 @@ public class Bullet {
     private float dirX;
     private float speed = 20;
 
+    private Player player;
+
     /**
      * Constructor.
      */
@@ -27,6 +29,8 @@ public class Bullet {
         this.hitbox = hitbox;
         this.weapon = weapon;
         this.dirX = dirX;
+
+        player = Game.getPlayer();
     }
 
     /**
@@ -65,13 +69,15 @@ public class Bullet {
                 }
             }
         } else {
-            if (Engine.collisionRect(hitbox, Game.getPlayer().getHitbox())) {
-                Game.getPlayer().takeDamage(weapon.damage);
+            if (Engine.collisionRect(hitbox, player.getHitbox())) {
+                player.takeDamage(weapon.damage);
                 Game.bulletsToRemove.add(this);
             }
         }
         for (Immovable e : Game.map.getEnvironment()) {
-            if (Engine.collisionRect(hitbox, e.getHitbox())) {
+            if (Engine.collisionRect(
+                new Rect(hitbox.x, hitbox.y + 50, hitbox.width, hitbox.height), 
+                e.getHitbox())) {
                 Game.bulletsToRemove.add(this);
             }
         }

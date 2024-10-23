@@ -14,6 +14,8 @@ public class Enemy extends Entity {
     private int type;
     private boolean dormant = true;
 
+    private Player player;
+
     /**
      * Contructor.
      */
@@ -29,6 +31,8 @@ public class Enemy extends Entity {
         running = IM.enemyRunning.get(type);
         attacking = IM.enemyAttacking.get(type);
         dying = IM.enemyDying.get(type);
+
+        player = Game.getPlayer();
     }
 
     @Override
@@ -47,18 +51,18 @@ public class Enemy extends Entity {
     }
 
     private void movementAI() {
-        if (Engine.distance(Game.getPlayer().getHitbox(), hitbox) < 500) {
+        if (Engine.distance(player.getHitbox(), hitbox) < 500) {
             dormant = false;
         }
             
-        if (Game.getPlayer().getState() == State.ATTACKING
-            && Engine.distance(Game.getPlayer().getHitbox(), hitbox) < 1000) {
+        if (player.getState() == State.ATTACKING
+            && Engine.distance(player.getHitbox(), hitbox) < 1000) {
             dormant = false;
         }
 
         if (!dormant) {
-            move(Game.getPlayer().getHitbox().x - hitbox.x,
-                -(Game.getPlayer().getHitbox().y - hitbox.y));
+            move(player.getHitbox().x - hitbox.x,
+                -(player.getHitbox().y - hitbox.y));
         }
     }
 
@@ -66,8 +70,8 @@ public class Enemy extends Entity {
      * Attack when in range.
      */
     private void shooting() {
-        if (Engine.distance(Game.getPlayer().getHitbox(), hitbox) < 100) {
-            this.useWeapon(Game.getPlayer().getHitbox().x);
+        if (Engine.distance(player.getHitbox(), hitbox) < 100) {
+            this.useWeapon(player.getHitbox().x);
         }
     }
 }

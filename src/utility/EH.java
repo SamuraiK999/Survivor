@@ -141,4 +141,8 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
     }
+
+    public static void clearButtons() {
+        buttons.clear();
+    }
 }
