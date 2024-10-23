@@ -2,6 +2,7 @@ package gameplay.entities;
 
 import core.states.Game;
 import gameplay.gear.Weapon;
+import gameplay.map.Immovable;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ import utility.IM;
 public abstract class Entity {
 
     protected Rect hitbox;
+    protected Rect hitboxMovement;
     protected Weapon weapon;
 
     protected float maxHealth = 100;
@@ -43,12 +45,15 @@ public abstract class Entity {
     private static int defaultEntityWidth = 40;
     private static int defaultEntityHeigth = 100;
 
-
     /**
      * Constructor.
      */
     public Entity(Rect hitbox) {
         this.hitbox = hitbox;
+        hitboxMovement = new Rect(hitbox.x,
+                hitbox.y + hitbox.height - hitbox.width,
+                defaultEntityWidth,
+                defaultEntityWidth);
     }
 
     /**
@@ -61,23 +66,23 @@ public abstract class Entity {
         if (EH.getTick() % 5 == 0) {
             currentFrame = nextFrame();
         }
-        
+
     }
 
     /**
      * Draw the entity.
      */
     public void draw(Graphics g) {
-        //hitbox.drawRelative(g);
+        // hitbox.drawRelative(g);
 
         if (currentFrame != null) {
-            IM.drawRotatedImage(g, currentFrame, 
-                new Point((int) (hitbox.getRelative().x + hitbox.width / 2), 
-                          (int) (hitbox.getRelative().y + offsetY)),
-                1.5 * facing, 1.5, 0);
+            IM.drawRotatedImage(g, currentFrame,
+                    new Point((int) (hitbox.getRelative().x + hitbox.width / 2),
+                            (int) (hitbox.getRelative().y + offsetY)),
+                    1.5 * facing, 1.5, 0);
         }
     }
-    
+
     /**
      * Deals damage to the entity.
      */
@@ -102,7 +107,7 @@ public abstract class Entity {
      * Move the entity in one of 8 directions; x & y should be between -1 & 1.
      */
     protected void move(float x, float y) {
-        
+
         if (health <= 0) {
             return;
         }
@@ -113,7 +118,7 @@ public abstract class Entity {
             }
             return;
         }
-        
+
         if (currentState != State.RUNNING) {
             setState(State.RUNNING);
         }
@@ -136,8 +141,8 @@ public abstract class Entity {
         }
 
         // moving the body
-        hitbox.x += x * speed / 2;
-        hitbox.y -= y * speed / 2;
+        hitbox.x += x * speed;
+        hitbox.y -= y * speed;
     }
 
     /**
@@ -183,7 +188,7 @@ public abstract class Entity {
             case DYING:
                 animArray = dying;
                 break;
-        
+
             default:
                 animArray = idle;
                 break;
@@ -232,19 +237,41 @@ public abstract class Entity {
         }
 
         // moving the body
-        hitbox.x = Engine.lerp(hitbox.x, hitbox.x + x * 2, speed / 4f);
-        hitbox.y = Engine.lerp(hitbox.y, hitbox.y - y * 2, speed / 4f);
+        hitbox.x = Engine.lerp(hitbox.x, hitbox.x + x * 2, speed / 2f);
+        hitbox.y = Engine.lerp(hitbox.y, hitbox.y - y * 2, speed / 2f);
     }
 
     /**
      * Makes sure that entities don't overlap/clip through each other.
      */
     private void handleClipping() {
+        hitboxMovement = new Rect(hitbox.x,
+                hitbox.y + hitbox.height - hitbox.width,
+                defaultEntityWidth,
+                defaultEntityWidth);
+
         for (Entity e : Game.entities) {
             if (e != this) {
                 if (Engine.collisionRect(hitbox, e.getHitbox())) {
                     moveLerp(-(e.getHitbox().x - hitbox.x), (e.getHitbox().y - hitbox.y));
                 }
+            }
+        }
+
+        for (Immovable e : Game.map.getEnvironment()) {
+            if (Engine.collisionRect(hitboxMovement, e.getHitbox())) {
+                float overlapX1 = Math.max(hitboxMovement.x, e.getHitbox().x);
+                float overlapY1 = Math.max(hitboxMovement.y, e.getHitbox().y);
+                float overlapX2 = Math.min(hitboxMovement.x + hitboxMovement.width,
+                        e.getHitbox().x + e.getHitbox().width);
+                float overlapY2 = Math.min(hitboxMovement.y + hitboxMovement.height,
+                        e.getHitbox().y + e.getHitbox().height);
+
+                // Calculate the center of the overlapping area
+                int collisionX = (int) (overlapX1 + overlapX2) / 2;
+                int collisionY = (int) (overlapY1 + overlapY2) / 2;
+                move(-(collisionX - hitboxMovement.getCentered().x),
+                        (collisionY - hitboxMovement.getCentered().y));
             }
         }
     }

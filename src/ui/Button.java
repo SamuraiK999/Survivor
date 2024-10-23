@@ -16,6 +16,7 @@ public class Button {
     private BufferedImage image;
     private Rect body;
     private boolean drawMask = false;
+    private float alpha = 0.5f;
 
     /**
      * Constuctor.
@@ -63,8 +64,9 @@ public class Button {
     public void handleHovering() {
         if (isHovering()) {
             drawMask = true;
+            alpha = 0.25f;
             if (EH.isMousePressed()) {
-                // draw another mask (same one)
+                alpha = 0.5f;
             }
         } else {
             drawMask = false;
@@ -86,7 +88,6 @@ public class Button {
      */
     public void drawMask(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        float alpha = 0.5f;
 
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 

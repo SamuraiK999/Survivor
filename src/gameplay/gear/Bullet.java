@@ -3,6 +3,8 @@ package gameplay.gear;
 import core.states.Game;
 import gameplay.entities.Enemy;
 import gameplay.entities.Player;
+import gameplay.map.Immovable;
+
 import java.awt.*;
 import shapes.Rect;
 import utility.Engine;
@@ -40,7 +42,7 @@ public class Bullet {
      */
     public void draw(Graphics g) {
         Graphics g1 = g.create();
-        g1.setColor(Color.BLACK);
+        g1.setColor(Color.YELLOW);
         hitbox.drawRelative(g1);
     }
 
@@ -65,6 +67,11 @@ public class Bullet {
         } else {
             if (Engine.collisionRect(hitbox, Game.getPlayer().getHitbox())) {
                 Game.getPlayer().takeDamage(weapon.damage);
+                Game.bulletsToRemove.add(this);
+            }
+        }
+        for (Immovable e : Game.map.getEnvironment()) {
+            if (Engine.collisionRect(hitbox, e.getHitbox())) {
                 Game.bulletsToRemove.add(this);
             }
         }

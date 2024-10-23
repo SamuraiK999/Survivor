@@ -2,6 +2,8 @@ package core.states;
 
 import core.Main;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import shapes.Rect;
 import ui.Button;
@@ -15,6 +17,8 @@ import utility.IM;
  */
 public class MainMenu {
     public static ArrayList<Button> buttons = new ArrayList<>();
+
+    BufferedImage background = IM.background;
 
     public MainMenu() {
         initializeMenu();
@@ -56,6 +60,8 @@ public class MainMenu {
      * Draw.
      */
     public void draw(Graphics g) {
+        g.drawImage(background, 0, 0, Main.FRAME_WIDTH, Main.FRAME_HEIGTH, null);
+
         for (Button b : buttons) {
             b.draw(g);
         }

@@ -29,6 +29,10 @@ public class IM {
     public static BufferedImage playButton;
     public static BufferedImage difficultyButton;
     public static BufferedImage quitButton;
+    public static BufferedImage background;
+
+    public static BufferedImage backgroundMap;
+    public static BufferedImage overlayMap;
 
     private static String playerPath = "img/game/entities/player/";
     private static String enemyPath = "img/game/entities/enemy/";
@@ -131,6 +135,10 @@ public class IM {
                         new File(enemyPath + "type3/dying/tile00" + i + ".png")));
             }
 
+            // For the map:
+            backgroundMap = ImageIO.read(new File("img/game/map/map.png"));
+            overlayMap = ImageIO.read(new File("img/game/map/map overlay.png"));
+
 
             // For the ui:
 
@@ -142,6 +150,9 @@ public class IM {
 
             // For the quit button:
             quitButton = ImageIO.read(new File("img/ui/buttons/quitButton.png"));
+
+            // For the background
+            background = ImageIO.read(new File("img/ui/background.png"));
 
         } catch (IOException e) {
             System.err.println("Error loading images: " + e.getMessage());

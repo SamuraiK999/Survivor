@@ -20,7 +20,7 @@ public class Enemy extends Entity {
     public Enemy(Rect hitbox) {
         super(hitbox);
 
-        speed = 10;
+        speed = 5;
 
         offsetY = 18;
 

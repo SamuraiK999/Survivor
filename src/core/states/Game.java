@@ -8,6 +8,7 @@ import gameplay.entities.Player;
 import gameplay.gear.Bullet;
 import gameplay.gear.RangedWeapon;
 import gameplay.gear.Slash;
+import gameplay.map.Map;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -21,10 +22,12 @@ import utility.Engine;
  */
 public class Game {
 
+    public static Map map = new Map();
+
     public static ArrayList<Entity> entities = new ArrayList<>();
 
     private static Player player = new Player(
-        new Rect(400, 300, Entity.getDefaultWidth(), Entity.getDefaultHeight())
+        new Rect(0, 0, Entity.getDefaultWidth(), Entity.getDefaultHeight())
         );
 
     public static ArrayList<Enemy> enemies = new ArrayList<>();
@@ -52,6 +55,8 @@ public class Game {
      * Handles game logic.
      */
     public void update() {
+        map.update();
+
         enemySpawner.update();
 
         entities.clear();
@@ -85,6 +90,7 @@ public class Game {
      * Render everything.
      */
     public void draw(Graphics g) {
+        map.draw(g);
 
         for (Slash s : slashes) {
             s.draw(g);
@@ -99,6 +105,8 @@ public class Game {
         for (Enemy enemy : enemies) {
             enemy.draw(g);
         }
+
+        map.drawOverlay(g);
     }
 
     /**

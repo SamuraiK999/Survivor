@@ -19,7 +19,7 @@ public class Player extends Entity {
     public Player(Rect hitbox) {
         super(hitbox);
 
-        speed = 15;
+        speed = 8;
 
         idle = IM.playerIdle;
         running = IM.playerRunning;
