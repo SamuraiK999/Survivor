@@ -2,6 +2,8 @@ package core;
 
 import core.states.Game;
 import core.states.MainMenu;
+import utility.EH;
+
 import java.awt.Graphics;
 
 /**
@@ -86,6 +88,7 @@ public class GameStateManager {
     }
 
     public static void setState(GameState newState) {
+        EH.clearButtons();
         currentGameState = newState;
     }
 }

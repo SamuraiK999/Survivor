@@ -19,6 +19,7 @@ public class PlayButton extends Button {
 
     @Override
     public void use() {
+        Game.deathMenu = null;
         GameStateManager.setGame(new Game());
         GameStateManager.setState(GameState.GAME);
     }

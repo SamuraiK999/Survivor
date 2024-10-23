@@ -23,6 +23,7 @@ import utility.IM;
  */
 public class Game {
 
+    public static DeathMenu deathMenu;
     public static Map map = new Map();
 
     public static ArrayList<Entity> entities = new ArrayList<>();
@@ -47,6 +48,9 @@ public class Game {
      * Constructor.
      */
     public Game() {
+        player = new Player(
+        new Rect(0, 0, Entity.getDefaultWidth(), Entity.getDefaultHeight())
+        );
         player.setWeapon(new RangedWeapon(34, 10, new Point(0, -26)));
     }
 
@@ -83,6 +87,10 @@ public class Game {
         }
         slashes.removeAll(slashesToRemove);
         slashesToRemove.clear();
+
+        if(deathMenu != null){
+            deathMenu.update();
+        }
     }
 
     /**
@@ -106,6 +114,10 @@ public class Game {
         }
 
         map.drawOverlay(g);
+
+        if(deathMenu != null){
+            deathMenu.draw(g);
+        }
     }
 
     /**
@@ -145,6 +157,12 @@ public class Game {
 
     public static Player getPlayer() {
         return player;
+    }
+
+    public static void createDeathMenu(){
+        if(deathMenu == null){
+            deathMenu = new DeathMenu();
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 package core.states;
 
+import core.GameState;
+import core.GameStateManager;
 import core.Main;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -14,16 +16,16 @@ import utility.IM;
 /**
  * The first menu the user sees.
  */
-public class MainMenu {
-    public static ArrayList<Button> buttons = new ArrayList<>();
+public class MainMenu extends Menu {
 
     BufferedImage manuBackground = IM.manuBackground;
 
     public MainMenu() {
-        initializeMenu();
+        super();
     }
 
-    private void initializeMenu() {
+    @Override
+    protected void initializeMenu() {
         buttons.add(
             new PlayButton(
                 new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2, 
@@ -46,23 +48,16 @@ public class MainMenu {
                     IM.quitButton.getHeight())));
     }
 
-    /**
-     * Update.
-     */
-    public void update() {
-        for (Button b : buttons) {
-            b.update();
+    @Override
+    public void update(){
+        if(GameStateManager.getState() == GameState.MAIN_MENU){
+            super.update();
         }
     }
 
-    /**
-     * Draw.
-     */
+    @Override
     public void draw(Graphics g) {
-        g.drawImage(manuBackground, 0, 0, Main.FRAME_WIDTH, Main.FRAME_HEIGTH, null);
-
-        for (Button b : buttons) {
-            b.draw(g);
-        }
+        g.drawImage(background, 0, 0, Main.FRAME_WIDTH, Main.FRAME_HEIGTH, null);
+        super.draw(g);
     }
 }
