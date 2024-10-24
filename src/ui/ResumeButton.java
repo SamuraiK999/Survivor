@@ -6,14 +6,11 @@ import core.states.Game;
 import shapes.Rect;
 import utility.IM;
 
-/**
- * Start game button.
- */
-public class PlayButton extends Button {
+public class ResumeButton extends Button {
     /**
      * Constructor.
      */
-    public PlayButton(Rect body) {
+    public ResumeButton(Rect body) {
         super(IM.playButton, body);
     }
 
@@ -21,7 +18,6 @@ public class PlayButton extends Button {
     public void use() {
         super.use();
         Game.deathMenu = null;
-        GameStateManager.setGame(new Game());
-        GameStateManager.setState(GameState.GAME);
+        GameStateManager.setPausedState(false);
     }
 }

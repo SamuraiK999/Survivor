@@ -2,6 +2,8 @@ package ui;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import core.GameStateManager;
 import shapes.Rect;
 import utility.EH;
 import utility.Engine;
@@ -46,7 +48,9 @@ public class Button {
     }
 
     public void use() {
-        System.out.println("MAZNA");
+        if(!GameStateManager.getPauseState()){
+            return;
+        }
     }
 
     /**

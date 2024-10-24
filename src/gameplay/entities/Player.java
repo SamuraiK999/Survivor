@@ -1,5 +1,6 @@
 package gameplay.entities;
 
+import core.GameStateManager;
 import core.states.Game;
 import java.awt.event.KeyEvent;
 import shapes.Rect;

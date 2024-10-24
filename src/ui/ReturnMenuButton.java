@@ -16,6 +16,8 @@ public class ReturnMenuButton extends Button {
 
     @Override
     public void use() {
+        super.use();
+        System.out.println("Mazna");
         GameStateManager.setState(GameState.MAIN_MENU);
     }
 }
