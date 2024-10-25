@@ -45,6 +45,13 @@ public class Rect {
     }
 
     /**
+     * Returns coordinates udes to draw the rect by giving the coordinates of it's center.
+     */
+    public Point toDrawCentered() {
+        return new Point((int) (x - width / 2), (int) (y - height / 2));
+    }
+
+    /**
      * Draw the rectangle relatice to the camera.
      */
     public void drawRelative(Graphics g) {

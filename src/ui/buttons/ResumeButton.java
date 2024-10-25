@@ -15,7 +15,7 @@ public class ResumeButton extends Button {
      * Constructor.
      */
     public ResumeButton(ButtonSite location, Rect body) {
-        super(location, IM.playButton, body);
+        super(location, IM.resumeButton, body);
     }
 
     @Override

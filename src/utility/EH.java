@@ -44,6 +44,9 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
         timer.start();
     }
 
+    /**
+     * Used obly inside the Button constructor i.e. don't use.
+     */
     public void addButton(Button button) {
         buttons.add(button);
     }
@@ -122,7 +125,7 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
     }
 
     @Override
@@ -168,11 +171,11 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
     }
 }

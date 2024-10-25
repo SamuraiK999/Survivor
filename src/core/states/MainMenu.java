@@ -3,10 +3,8 @@ package core.states;
 import core.GameStateManager;
 import core.Main;
 import core.enums.GameState;
-
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-
 import ui.Menu;
 import ui.buttons.DificultyButton;
 import ui.buttons.PlayButton;
@@ -22,15 +20,25 @@ public class MainMenu extends Menu {
 
     BufferedImage mainMenuBackground = IM.mainMenuBackground;
 
+    /**
+     * Constructor.
+     */
     public MainMenu() {
-        super(ButtonSite.MAIN_MENU);
+        super(
+                ButtonSite.MAIN_MENU,
+                IM.mainMenuBackground,
+                new Rect(
+                        Main.FRAME_WIDTH / 2,
+                        Main.FRAME_HEIGTH / 2,
+                        Main.FRAME_WIDTH,
+                        Main.FRAME_HEIGTH));
     }
 
     @Override
     public void init() {
         buttons.add(
                 new PlayButton(
-                    location,
+                        location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2,
                                 Main.FRAME_HEIGTH / 2 - 70,
                                 IM.playButton.getWidth(),
@@ -38,7 +46,7 @@ public class MainMenu extends Menu {
 
         buttons.add(
                 new DificultyButton(
-                    location,
+                        location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.difficultyButton.getWidth() / 2,
                                 Main.FRAME_HEIGTH / 2,
                                 IM.difficultyButton.getWidth(),
@@ -46,7 +54,7 @@ public class MainMenu extends Menu {
 
         buttons.add(
                 new QuitButton(
-                    location,
+                        location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.quitButton.getWidth() / 2,
                                 Main.FRAME_HEIGTH / 2 + 70,
                                 IM.quitButton.getWidth(),
@@ -62,7 +70,6 @@ public class MainMenu extends Menu {
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(mainMenuBackground, 0, 0, Main.FRAME_WIDTH, Main.FRAME_HEIGTH, null);
         super.draw(g);
     }
 }

@@ -30,7 +30,14 @@ public class IM {
     public static BufferedImage difficultyButton;
     public static BufferedImage quitButton;
     public static BufferedImage mainMenuBackground;
-    public static BufferedImage returnMenuButton;
+
+    public static BufferedImage resumeButton;
+    public static BufferedImage mainMenuButtonPause;
+    public static BufferedImage pauseMenuBackground;
+
+    public static BufferedImage playAgainButton;
+    public static BufferedImage mainMenuButtonDeath;
+    public static BufferedImage deathMenuBackground;
 
     public static BufferedImage backgroundMap;
     public static BufferedImage overlayMap;
@@ -42,7 +49,9 @@ public class IM {
     // Pre-loading all images.
     static {
         try {
+
             // For the player:
+
             for (int i = 0; i < 7; i++) {
                 playerIdle.add(
                     ImageIO.read(
@@ -64,13 +73,14 @@ public class IM {
                         new File(playerPath + "dying/tile00" + i + ".png")));
             }
 
+            // For the enemies:
+
             for (int i = 0; i < 3; i++) {
                 enemyIdle.add(new ArrayList<>());
                 enemyRunning.add(new ArrayList<>());
                 enemyAttacking.add(new ArrayList<>());
                 enemyDying.add(new ArrayList<>());
             }
-            
             // For a type 1 enemy:
             for (int i = 0; i < 9; i++) {
                 enemyIdle.get(0).add(
@@ -92,7 +102,6 @@ public class IM {
                     ImageIO.read(
                         new File(enemyPath + "type1/dying/tile00" + i + ".png")));
             }
-
             // For a type 2 enemy:
             for (int i = 0; i < 8; i++) {
                 enemyIdle.get(1).add(
@@ -114,7 +123,6 @@ public class IM {
                     ImageIO.read(
                         new File(enemyPath + "type2/dying/tile00" + i + ".png")));
             }
-
             // For a type 3 enemy:
             for (int i = 0; i < 5; i++) {
                 enemyIdle.get(2).add(
@@ -138,29 +146,59 @@ public class IM {
             }
 
             // For the map:
+
+            // For the background:
             backgroundMap = ImageIO.read(new File("img/game/map/map.png"));
+            // For the overlay:
             overlayMap = ImageIO.read(new File("img/game/map/map overlay.png"));
+            // For some of the overlay objects:
             for (int i = 0; i < 3; i++) {
                 overlayObjects.add(ImageIO.read(new File("img/game/map/o" + i + ".png")));
             }
 
 
             // For the ui:
+            String uiPath = "img/ui/";
 
-            // For the play button:
-            playButton = ImageIO.read(new File("img/ui/buttons/playButton.png"));
-
-            // For the difficulty button:
-            difficultyButton = ImageIO.read(new File("img/ui/buttons/difficultyButton.png"));
-
-            // For the quit button:
-            quitButton = ImageIO.read(new File("img/ui/buttons/quitButton.png"));
-
+            // For the "main" menu:
+            String mainMenuPath = "main menu/";
+            // For the "play" button:
+            playButton = ImageIO.read(
+                new File(uiPath + mainMenuPath + "playButton.png"));
+            // For the "difficulty" button:
+            difficultyButton = ImageIO.read(
+                new File(uiPath + mainMenuPath + "difficultyButton.png"));
+            // For the "quit" button:
+            quitButton = ImageIO.read(
+                new File(uiPath + mainMenuPath + "quitButton.png"));
             // For the background
-            mainMenuBackground = ImageIO.read(new File("img/ui/background.png"));
+            mainMenuBackground = ImageIO.read(
+                new File(uiPath + mainMenuPath + "background.png"));
 
-            //For the return to menu Button
-            returnMenuButton = ImageIO.read(new File("img/ui/buttons/returnMenuButton.png"));
+            // For the pause menu:
+            String pauseMenuPath = "pause menu/";
+            // For the "resume" button:
+            resumeButton = ImageIO.read(
+                new File(uiPath + pauseMenuPath + "resumeButton.png"));
+            // For the "main menu" button:
+            mainMenuButtonPause = ImageIO.read(
+                new File(uiPath + pauseMenuPath + "mainMenuButton.png"));
+            // For the background:
+            pauseMenuBackground = ImageIO.read(
+                new File(uiPath + pauseMenuPath + "background.png"));
+
+            // For the death menu:
+            String deathMenuPath = "death menu/";
+            // For the "play again" button:
+            playAgainButton = ImageIO.read(
+                new File(uiPath + deathMenuPath + "playAgainButton.png"));
+            // For the "play again" button:
+            mainMenuButtonDeath = ImageIO.read(
+                new File(uiPath + deathMenuPath + "mainMenuButton.png"));
+            // For the background:
+            deathMenuBackground = ImageIO.read(
+                new File(uiPath + deathMenuPath + "background.png"));
+
 
         } catch (IOException e) {
             System.err.println("Error loading images: " + e.getMessage());

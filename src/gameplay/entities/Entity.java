@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
 import utility.EH;
 import utility.Engine;
 import utility.IM;

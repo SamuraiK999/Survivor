@@ -10,10 +10,10 @@ import utility.shapes.Rect;
 /**
  * A button that sends the user back to the main menu.
  */
-public class ReturnMenuButton extends Button {
+public class MainMenuButton extends Button {
 
-    public ReturnMenuButton(ButtonSite location, Rect body) {
-        super(location, IM.returnMenuButton, body);
+    public MainMenuButton(ButtonSite location, Rect body) {
+        super(location, IM.mainMenuButtonPause, body);
     }
 
     @Override

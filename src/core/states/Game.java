@@ -12,7 +12,6 @@ import gameplay.map.Map;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import utility.shapes.Rect;
 
 /**
  * Game.

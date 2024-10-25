@@ -4,8 +4,8 @@ import core.Main;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import ui.Menu;
+import ui.buttons.MainMenuButton;
 import ui.buttons.ResumeButton;
-import ui.buttons.ReturnMenuButton;
 import ui.buttons.enums.ButtonSite;
 import utility.EH;
 import utility.IM;
@@ -16,8 +16,18 @@ import utility.shapes.Rect;
  */
 public class PauseMenu extends Menu {
 
+    /**
+     * Constructor.
+     */
     public PauseMenu() {
-        super(ButtonSite.PAUSE_MENU);
+        super(
+            ButtonSite.PAUSE_MENU, 
+            IM.pauseMenuBackground, 
+            new Rect(
+                Main.FRAME_WIDTH / 2, 
+                Main.FRAME_HEIGTH / 2, 
+                IM.pauseMenuBackground.getWidth() * 2, 
+                IM.pauseMenuBackground.getHeight() * 2));
     }
 
     @Override
@@ -28,21 +38,21 @@ public class PauseMenu extends Menu {
                         location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2,
                                 Main.FRAME_HEIGTH / 2 - 70,
-                                IM.playButton.getWidth(),
-                                IM.playButton.getHeight())));
+                                IM.resumeButton.getWidth(),
+                                IM.resumeButton.getHeight())));
 
         buttons.add(
-                new ReturnMenuButton(
+                new MainMenuButton(
                         location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2,
                                 Main.FRAME_HEIGTH / 2,
-                                IM.playButton.getWidth(),
-                                IM.playButton.getHeight())));
+                                IM.mainMenuButtonPause.getWidth(),
+                                IM.mainMenuButtonPause.getHeight())));
     }
 
     @Override
     public void draw(Graphics g) {
-        // TODO: draw bg
+        tintBackground(g);
         super.draw(g);
     }
 
@@ -60,7 +70,6 @@ public class PauseMenu extends Menu {
     public void onKeyReleased(int keyCode) {
         if (keyCode == KeyEvent.VK_P || keyCode == KeyEvent.VK_ESCAPE) {
             Game.setPauseState(!Game.getPauseState());
-            System.out.println("kur\n\n\n\n");
         }
     }
 }
