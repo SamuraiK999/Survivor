@@ -17,8 +17,8 @@ public class Player extends Entity {
     /**
      * Constructor.
      */
-    public Player(Rect hitbox) {
-        super(hitbox);
+    public Player() {
+        super(new Rect(0, 0, Entity.getDefaultWidth(), Entity.getDefaultHeight()));
 
         speed = 8;
 

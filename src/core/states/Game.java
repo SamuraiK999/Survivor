@@ -25,8 +25,7 @@ public class Game {
 
     public static ArrayList<Entity> entities = new ArrayList<>();
 
-    private static Player player = new Player(
-            new Rect(0, 0, Entity.getDefaultWidth(), Entity.getDefaultHeight()));
+    private static Player player = new Player();
 
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static List<Enemy> enemiesToRemove = new ArrayList<>();
@@ -55,7 +54,7 @@ public class Game {
     public void init() {
         entities = new ArrayList<>();
 
-        player = new Player(new Rect(0, 0, Entity.getDefaultWidth(), Entity.getDefaultHeight()));
+        player = new Player();
         player.setWeapon(new RangedWeapon(34, 10, new Point(0, -26)));
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
