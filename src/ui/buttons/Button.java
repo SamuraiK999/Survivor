@@ -3,6 +3,8 @@ package ui.buttons;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import core.GameStateManager;
+
 import utility.EH;
 import utility.Engine;
 import utility.IM;
@@ -47,7 +49,9 @@ public class Button {
     }
 
     public void use() {
-        System.out.println("MAZNA");
+        if(!GameStateManager.getPauseState()){
+            return;
+        }
     }
 
     /**

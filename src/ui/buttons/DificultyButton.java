@@ -17,6 +17,7 @@ public class DificultyButton extends Button {
        
     @Override
     public void use() {
+        super.use();
         //Changes the dificulty
     }
 

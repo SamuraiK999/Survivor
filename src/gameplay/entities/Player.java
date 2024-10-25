@@ -1,5 +1,6 @@
 package gameplay.entities;
 
+import core.GameStateManager;
 import core.states.Game;
 import gameplay.entities.enums.State;
 

@@ -4,6 +4,9 @@ import core.GameStateManager;
 import core.Main;
 import ui.buttons.Button;
 
+import core.states.Game;
+import core.states.PausedMenu;
+
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +26,7 @@ import javax.swing.Timer;
  */
 public class EH implements ActionListener, KeyListener, MouseListener, MouseMotionListener {
 
+    private static PausedMenu pauseMenu;
     private static int tick = 0;
     private Timer timer = new Timer(10, this);
     private static EH instance;
@@ -43,6 +47,10 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
 
     public void addButton(Button button) {
         buttons.add(button);
+    }
+
+    public static void setPauseMenu(PausedMenu pm) {
+        pauseMenu = pm;
     }
 
     public static boolean isKeyPressed(int keyCode) {
@@ -92,6 +100,7 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void keyReleased(KeyEvent e) {
         isPressed[e.getKeyCode()] = false;
+        pauseMenu.OnKeyReleased(e.getKeyCode());
     }
 
     @Override
@@ -125,11 +134,14 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void mouseReleased(MouseEvent e) {
         isMousePressed = false;
-        if (buttons.size() > 0) {
-            for (Button b : buttons) {
-                b.onMouseReleased();
+        if(GameStateManager.getPauseState() || Game.deathMenu != null){
+            if (buttons.size() > 0) {
+                for (Button b : buttons) {
+                    b.onMouseReleased();
+                }
             }
         }
+        
     }
 
     @Override

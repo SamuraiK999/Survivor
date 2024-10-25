@@ -25,6 +25,7 @@ import utility.shapes.Rect;
 public class Game {
 
     public static DeathMenu deathMenu;
+    public static PausedMenu pausedMenu;
     public static Map map = new Map();
 
     public static ArrayList<Entity> entities = new ArrayList<>();
@@ -169,5 +170,4 @@ public class Game {
             deathMenu = new DeathMenu();
         }
     }
-
 }

@@ -17,6 +17,7 @@ public class QuitButton extends Button {
 
     @Override
     public void use() {
+        super.use();
         System.exit(0);
     }
 }
