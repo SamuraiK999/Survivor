@@ -84,4 +84,12 @@ public class Player extends Entity {
             useWeapon(hitbox.x + (-leftInput + rightInput));
         }
     }
+
+    public float getHealth() {
+        return health;
+    }
+
+    public float getMaxHealth() {
+        return maxHealth;
+    }
 }

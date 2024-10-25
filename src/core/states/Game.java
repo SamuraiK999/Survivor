@@ -10,13 +10,21 @@ import gameplay.gear.particles.Slash;
 import gameplay.gear.weapons.RangedWeapon;
 import gameplay.map.Map;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import ui.HUD;
 
 /**
  * Game.
  */
 public class Game {
+
+    public static int score = 0;
+    public static int highscore;
 
     public static Map map = new Map();
     public static PauseMenu pausedMenu = new PauseMenu();
@@ -51,6 +59,8 @@ public class Game {
      * Init.
      */
     public void init() {
+        highscore = loadHighscore();
+
         entities = new ArrayList<>();
 
         player = new Player();
@@ -67,6 +77,11 @@ public class Game {
      * Handles game logic.
      */
     public void update() {
+
+        if (score > highscore) {
+            highscore = score;
+            saveHighscore(highscore);
+        }
         
         if (isGamePaused) {
             pausedMenu.update();
@@ -103,6 +118,8 @@ public class Game {
         slashes.removeAll(slashesToRemove);
         slashesToRemove.clear();
 
+        HUD.update();
+
         if (!isPlayerAlive) {
             deathMenu.update();
         }
@@ -129,6 +146,8 @@ public class Game {
         }
 
         map.drawOverlay(g);
+        
+        HUD.draw(g);
 
         if (isGamePaused) {
             pausedMenu.draw(g);
@@ -136,6 +155,27 @@ public class Game {
 
         if (!isPlayerAlive) {
             deathMenu.draw(g);
+        }
+    }
+    
+    private int loadHighscore() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("config/highscore.txt"))) {
+            String line = reader.readLine();
+            return Integer.parseInt(line.trim());
+        } catch (IOException e) {
+            
+        } catch (NumberFormatException e) {
+            
+        }
+        return 0;
+    }
+
+    private void saveHighscore(int number) {
+        try (FileWriter writer = new FileWriter("config/highscore.txt", false)) {
+            writer.write(Integer.toString(number));
+            writer.flush();
+        } catch (IOException e) {
+            
         }
     }
 

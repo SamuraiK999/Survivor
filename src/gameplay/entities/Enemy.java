@@ -41,14 +41,22 @@ public class Enemy extends Entity {
         super.update();
         movementAI();
         shooting();
-        if (isFinished && getState() == State.DYING) {
-            Game.enemiesToRemove.add(this);
-        }
+        dying();
     }
 
     @Override
     public void die() {
         super.die();
+    }
+
+    /**
+     * Actions done after death.
+     */
+    public void dying() {
+        if (isFinished && getState() == State.DYING) {
+            Game.enemiesToRemove.add(this);
+            Game.score++;
+        }
     }
 
     private void movementAI() {

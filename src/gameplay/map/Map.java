@@ -20,7 +20,7 @@ public class Map {
 
     private Player player;
 
-    private BufferedImage backgroundMap;
+    private static BufferedImage backgroundMap;
     private BufferedImage overlayMap;
     private ArrayList<Immovable> environment = new ArrayList<>();
     private ArrayList<BufferedImage> overlayObjects = new ArrayList<>();
@@ -128,7 +128,10 @@ public class Map {
         reader.close();
     }
 
-    private Point translateCoordinates(Point p) {
+    /**
+     * It's 7:24am 25/10/24 after an all nighter, idk anymore. TODO
+     */
+    public static Point translateCoordinates(Point p) {
         return new Point(
                 (p.x - backgroundMap.getWidth() / 2) * 3,
                 (p.y - backgroundMap.getHeight() / 2) * 3);
@@ -138,7 +141,7 @@ public class Map {
         return environment;
     }
 
-    public Point getBoundaties() {
+    public static Point getBoundaties() {
         return new Point(backgroundMap.getWidth(), backgroundMap.getHeight());
     }
 

@@ -1,12 +1,15 @@
 package gameplay;
 
+import core.Main;
 import core.states.Game;
 import gameplay.entities.Enemy;
 import gameplay.entities.Entity;
 import gameplay.gear.weapons.MeleeWeapon;
+import gameplay.map.Map;
 import java.util.ArrayList;
 import java.util.Random;
 import utility.EH;
+import utility.Engine;
 import utility.shapes.Rect;
 
 /**
@@ -35,7 +38,7 @@ public class EnemySpawner {
         timer = EH.getTick();
         spawnEnemy();
     }
-    
+
     /**
      * Update.
      */
@@ -57,14 +60,27 @@ public class EnemySpawner {
         Random random = new Random();
 
         // caluculate enemy spawn coordinates
-        int x = random.nextInt(Game.map.getBoundaties().x) - Game.map.getBoundaties().x / 2;
-        int y = random.nextInt(Game.map.getBoundaties().y) - Game.map.getBoundaties().y / 2;
+        int x = (random.nextInt(Map.getBoundaties().x) - Map.getBoundaties().x / 2) * 3;
+        int y = (random.nextInt(Map.getBoundaties().y) - Map.getBoundaties().y / 2) * 3;
+
+        while (Engine.collisionRect(
+                new Rect(
+                        Game.getPlayer().getHitbox().x
+                                - Main.FRAME_WIDTH / 2 + Entity.getDefaultWidth() / 2,
+                        Game.getPlayer().getHitbox().y
+                                - Main.FRAME_HEIGTH / 2 + Entity.getDefaultHeight() / 2,
+                        Main.FRAME_WIDTH, Main.FRAME_HEIGTH),
+                new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight()))) {
+
+            x = (random.nextInt(Map.getBoundaties().x) - Map.getBoundaties().x / 2) * 3;
+            y = (random.nextInt(Map.getBoundaties().y) - Map.getBoundaties().y / 2) * 3;
+        }
 
         enemies.add(
-            new Enemy(new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight() - 10))
-        );
+                new Enemy(new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight() - 10)));
 
-        enemies.get(enemies.size() - 1).setWeapon(new MeleeWeapon(10, 100));;
+        enemies.get(enemies.size() - 1).setWeapon(new MeleeWeapon(10, 100));
+        ;
     }
 
     public int getWaveInd() {

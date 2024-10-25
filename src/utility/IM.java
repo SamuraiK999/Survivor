@@ -43,15 +43,20 @@ public class IM {
     public static BufferedImage overlayMap;
     public static ArrayList<BufferedImage> overlayObjects = new ArrayList<>();
 
-    private static String playerPath = "img/game/entities/player/";
-    private static String enemyPath = "img/game/entities/enemy/";
+    public static BufferedImage statbar;
+    public static BufferedImage health;
+    public static BufferedImage healthTail;
+    public static BufferedImage score;
+    public static BufferedImage minimapbg;
+    public static BufferedImage soldierMinimap;
+    public static BufferedImage enemyMinimap;
 
     // Pre-loading all images.
     static {
         try {
 
             // For the player:
-
+            String playerPath = "img/game/entities/player/";
             for (int i = 0; i < 7; i++) {
                 playerIdle.add(
                     ImageIO.read(
@@ -74,7 +79,7 @@ public class IM {
             }
 
             // For the enemies:
-
+            String enemyPath = "img/game/entities/enemy/";
             for (int i = 0; i < 3; i++) {
                 enemyIdle.add(new ArrayList<>());
                 enemyRunning.add(new ArrayList<>());
@@ -161,43 +166,60 @@ public class IM {
             String uiPath = "img/ui/";
 
             // For the "main" menu:
-            String mainMenuPath = "main menu/";
+            String mainMenuPath = uiPath + "main menu/";
             // For the "play" button:
             playButton = ImageIO.read(
-                new File(uiPath + mainMenuPath + "playButton.png"));
+                new File(mainMenuPath + "playButton.png"));
             // For the "difficulty" button:
             difficultyButton = ImageIO.read(
-                new File(uiPath + mainMenuPath + "difficultyButton.png"));
+                new File(mainMenuPath + "difficultyButton.png"));
             // For the "quit" button:
             quitButton = ImageIO.read(
-                new File(uiPath + mainMenuPath + "quitButton.png"));
+                new File(mainMenuPath + "quitButton.png"));
             // For the background
             mainMenuBackground = ImageIO.read(
-                new File(uiPath + mainMenuPath + "background.png"));
+                new File(mainMenuPath + "background.png"));
 
             // For the pause menu:
-            String pauseMenuPath = "pause menu/";
+            String pauseMenuPath = uiPath + "pause menu/";
             // For the "resume" button:
             resumeButton = ImageIO.read(
-                new File(uiPath + pauseMenuPath + "resumeButton.png"));
+                new File(pauseMenuPath + "resumeButton.png"));
             // For the "main menu" button:
             mainMenuButtonPause = ImageIO.read(
-                new File(uiPath + pauseMenuPath + "mainMenuButton.png"));
+                new File(pauseMenuPath + "mainMenuButton.png"));
             // For the background:
             pauseMenuBackground = ImageIO.read(
-                new File(uiPath + pauseMenuPath + "background.png"));
+                new File(pauseMenuPath + "background.png"));
 
             // For the death menu:
-            String deathMenuPath = "death menu/";
+            String deathMenuPath = uiPath + "death menu/";
             // For the "play again" button:
             playAgainButton = ImageIO.read(
-                new File(uiPath + deathMenuPath + "playAgainButton.png"));
+                new File(deathMenuPath + "playAgainButton.png"));
             // For the "play again" button:
             mainMenuButtonDeath = ImageIO.read(
-                new File(uiPath + deathMenuPath + "mainMenuButton.png"));
+                new File(deathMenuPath + "mainMenuButton.png"));
             // For the background:
             deathMenuBackground = ImageIO.read(
-                new File(uiPath + deathMenuPath + "background.png"));
+                new File(deathMenuPath + "background.png"));
+
+            // For the HUD:
+            String hudPath = uiPath + "hud/";
+            // For the statbar:
+            statbar = ImageIO.read(new File(hudPath + "statbar.png"));
+            // For the health:
+            health = ImageIO.read(new File(hudPath + "health.png"));
+            // For the health's tail:
+            healthTail = ImageIO.read(new File(hudPath + "healthTail.png"));
+            // For the score:
+            score = ImageIO.read(new File(hudPath + "score.png"));
+            // For the minimap background:
+            minimapbg = ImageIO.read(new File(hudPath + "minimapbg.png"));
+            // For the soldier indicator on the minimap
+            soldierMinimap = ImageIO.read(new File(hudPath + "soldier.png"));
+            // For the enemy indicator on the minimap
+            enemyMinimap = ImageIO.read(new File(hudPath + "enemy.png"));
 
 
         } catch (IOException e) {

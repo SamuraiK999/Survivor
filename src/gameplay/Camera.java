@@ -15,11 +15,6 @@ public class Camera {
     private static float x = 0;
     private static float y = 0;
 
-    private Camera() {
-
-    }
-
-
     /**
      * Make the camera follow a target of type rect.
      */
