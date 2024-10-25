@@ -1,12 +1,14 @@
-package gameplay.gear;
+package gameplay.gear.particles;
 
 import core.states.Game;
 import gameplay.entities.Enemy;
 import gameplay.entities.Player;
+import gameplay.gear.weapons.Weapon;
 import gameplay.map.Immovable;
 import java.awt.*;
-import shapes.Rect;
+
 import utility.Engine;
+import utility.shapes.Rect;
 
 /**
  * Bullet.

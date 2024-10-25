@@ -1,16 +1,18 @@
 package core.states;
 
-import core.GameState;
 import core.GameStateManager;
 import core.Main;
+import core.enums.GameState;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import shapes.Rect;
-import ui.DificultyButton;
+
 import ui.Menu;
-import ui.PlayButton;
-import ui.QuitButton;
+import ui.buttons.DificultyButton;
+import ui.buttons.PlayButton;
+import ui.buttons.QuitButton;
 import utility.IM;
+import utility.shapes.Rect;
 
 /**
  * The first menu the user sees.

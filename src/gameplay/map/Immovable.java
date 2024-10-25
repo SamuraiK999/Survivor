@@ -1,7 +1,8 @@
 package gameplay.map;
 
 import java.awt.Graphics;
-import shapes.Rect;
+
+import utility.shapes.Rect;
 
 /**
  * Immovable objects such as walls, barels, crates, ect.

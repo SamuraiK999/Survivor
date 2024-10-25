@@ -1,10 +1,10 @@
-package ui;
+package ui.buttons;
 
-import core.GameState;
 import core.GameStateManager;
+import core.enums.GameState;
 import core.states.Game;
-import shapes.Rect;
 import utility.IM;
+import utility.shapes.Rect;
 
 /**
  * Start game button.

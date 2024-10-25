@@ -1,4 +1,4 @@
-package core;
+package core.enums;
 
 /**
  * Enumerator for the states of the app.

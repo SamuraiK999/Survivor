@@ -1,10 +1,13 @@
-package gameplay.gear;
+package gameplay.gear.weapons;
 
 import core.states.Game;
-import gameplay.entities.State;
+import gameplay.entities.enums.State;
+import gameplay.gear.Bullet;
+
 import java.awt.Point;
-import shapes.Rect;
+
 import utility.Engine;
+import utility.shapes.Rect;
 
 /**
  * Ranged weapon class.

@@ -1,9 +1,10 @@
-package gameplay.gear;
+package gameplay.gear.weapons;
 
 import core.states.Game;
 import gameplay.entities.Entity;
-import gameplay.entities.State;
-import shapes.Rect;
+import gameplay.entities.enums.State;
+import gameplay.gear.Slash;
+import utility.shapes.Rect;
 
 /**
  * Melee weapon class.

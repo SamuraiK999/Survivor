@@ -1,4 +1,4 @@
-package shapes;
+package utility.shapes;
 
 import core.states.Game;
 import java.awt.Graphics;

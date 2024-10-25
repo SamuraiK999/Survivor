@@ -1,4 +1,4 @@
-package gameplay.gear;
+package gameplay.gear.weapons;
 
 import gameplay.entities.Entity;
 

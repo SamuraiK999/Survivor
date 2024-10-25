@@ -5,18 +5,19 @@ import gameplay.EnemySpawner;
 import gameplay.entities.Enemy;
 import gameplay.entities.Entity;
 import gameplay.entities.Player;
-import gameplay.gear.Bullet;
-import gameplay.gear.RangedWeapon;
-import gameplay.gear.Slash;
+import gameplay.gear.particles.Bullet;
+import gameplay.gear.particles.Slash;
+import gameplay.gear.weapons.RangedWeapon;
 import gameplay.map.Map;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import shapes.Circle;
-import shapes.Rect;
+
 import utility.Engine;
 import utility.IM;
+import utility.shapes.Circle;
+import utility.shapes.Rect;
 
 /**
  * Game.
@@ -54,7 +55,7 @@ public class Game {
     /**
      * Init.
      */
-    public static void init() {
+    public void init() {
         entities = new ArrayList<>();
 
         player = new Player(new Rect(0, 0, Entity.getDefaultWidth(), Entity.getDefaultHeight()));
@@ -132,30 +133,20 @@ public class Game {
     }
 
     /**
-     * Make the camera follow a target of type circle.
-     */
-    public static void cameraFollow(Circle target) {
-        float newX = Engine.lerp(camera.x, -target.x + Main.frame.getWidth() / 2, 0.05f);
-        float newY = Engine.lerp(camera.y, -target.y + Main.frame.getHeight() / 2, 0.05f);
-
-        camera.setLocation(newX, newY);
-    }
-
-    /**
      * Make the camera follow a target of type rect.
      */
     public static void cameraFollow(Rect target) {
         float newX = Engine.clamp(
                 Engine.lerp(camera.x,
-                        -(target.x + target.width / 2) + Main.frame.getWidth() / 2,
-                        0.1f),
+                    -(target.x + target.width / 2) + Main.FRAME_WIDTH / (float) Main.scaleX / 2,
+                    0.1f),
                 IM.backgroundMap.getWidth() / 2,
                 IM.backgroundMap.getWidth() / 2 * 3);
 
         float newY = Engine.clamp(
                 Engine.lerp(camera.y,
-                        -(target.y + target.height / 2) + Main.frame.getHeight() / 2,
-                        0.1f),
+                    -(target.y + target.height / 2) + Main.FRAME_HEIGTH / (float) Main.scaleY / 2,
+                    0.1f),
                 -IM.backgroundMap.getHeight() / 2 + Entity.getDefaultHeight(),
                 IM.backgroundMap.getHeight() / 2 * 3);
 

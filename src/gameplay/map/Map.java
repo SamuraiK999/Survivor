@@ -9,8 +9,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import shapes.Rect;
+
 import utility.IM;
+import utility.shapes.Rect;
 
 /**
  * The map.
@@ -133,6 +134,10 @@ public class Map {
 
     public ArrayList<Immovable> getEnvironment() {
         return environment;
+    }
+
+    public Point getBoundaties() {
+        return new Point(backgroundMap.getWidth(), backgroundMap.getHeight());
     }
 
 }

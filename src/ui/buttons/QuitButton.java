@@ -1,7 +1,7 @@
-package ui;
+package ui.buttons;
 
-import shapes.Rect;
 import utility.IM;
+import utility.shapes.Rect;
 
 /**
  * Exit app button.

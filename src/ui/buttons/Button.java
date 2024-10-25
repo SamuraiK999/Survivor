@@ -1,11 +1,12 @@
-package ui;
+package ui.buttons;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import shapes.Rect;
+
 import utility.EH;
 import utility.Engine;
 import utility.IM;
+import utility.shapes.Rect;
 
 /**
  * Class for the buttons in the game.

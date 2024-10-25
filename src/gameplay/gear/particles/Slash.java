@@ -1,14 +1,17 @@
-package gameplay.gear;
+package gameplay.gear.particles;
 
 import core.states.Game;
 import gameplay.entities.Enemy;
 import gameplay.entities.Entity;
 import gameplay.entities.Player;
+import gameplay.gear.weapons.Weapon;
+
 import java.awt.Graphics;
 import java.util.ArrayList;
-import shapes.Rect;
+
 import utility.EH;
 import utility.Engine;
+import utility.shapes.Rect;
 
 /**
  * Slash.

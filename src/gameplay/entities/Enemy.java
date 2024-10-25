@@ -1,10 +1,13 @@
 package gameplay.entities;
 
 import core.states.Game;
+import gameplay.entities.enums.State;
+
 import java.util.Random;
-import shapes.Rect;
+
 import utility.Engine;
 import utility.IM;
+import utility.shapes.Rect;
 
 /**
  * Enemy.

@@ -1,16 +1,19 @@
 package gameplay.entities;
 
 import core.states.Game;
-import gameplay.gear.Weapon;
+import gameplay.entities.enums.Direction;
+import gameplay.entities.enums.State;
+import gameplay.gear.weapons.Weapon;
 import gameplay.map.Immovable;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import shapes.Rect;
+
 import utility.EH;
 import utility.Engine;
 import utility.IM;
+import utility.shapes.Rect;
 
 /**
  * The class from which all other entity classes derive from.

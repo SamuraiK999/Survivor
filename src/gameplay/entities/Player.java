@@ -1,10 +1,13 @@
 package gameplay.entities;
 
 import core.states.Game;
+import gameplay.entities.enums.State;
+
 import java.awt.event.KeyEvent;
-import shapes.Rect;
+
 import utility.EH;
 import utility.IM;
+import utility.shapes.Rect;
 
 /**
  * Player.
@@ -88,8 +91,10 @@ public class Player extends Entity {
      * Handle input for shooting.
      */
     private void shootingInput() {
-        if (EH.isMousePressed()) {
-            useWeapon(EH.getMouseCoordinatesRelative().x + hitbox.x);
+        int leftInput = EH.isKeyPressed(37) ? 1 : 0;
+        int rightInput = EH.isKeyPressed(39) ? 1 : 0;
+        if (-leftInput + rightInput != 0) {
+            useWeapon(hitbox.x + (-leftInput + rightInput));
         }
     }
 }

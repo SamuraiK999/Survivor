@@ -4,11 +4,13 @@ import core.states.Game;
 import gameplay.entities.Enemy;
 import gameplay.entities.Entity;
 import gameplay.entities.Player;
-import gameplay.gear.MeleeWeapon;
+import gameplay.gear.weapons.MeleeWeapon;
+
 import java.util.ArrayList;
 import java.util.Random;
-import shapes.Rect;
+
 import utility.EH;
+import utility.shapes.Rect;
 
 /**
  * Handles spawning the waves of enemies.
@@ -20,7 +22,6 @@ public class EnemySpawner {
 
     private int waveInd;
     private int waveSize;
-    private int spawnRadius;
     private int spawnInterval;
     private Random random;
     private int timer;
@@ -35,7 +36,6 @@ public class EnemySpawner {
         waveInd = 1;
         waveSize = 1;
 
-        spawnRadius = 1100;
         spawnInterval = 1; // 1 minute
         spawnInterval *= 60 * 10; // transform into ms
         random = new Random();
@@ -61,14 +61,16 @@ public class EnemySpawner {
      * Calculate where to spawn enemies and then do so.
      */
     private void spawnEnemy() {
-        double angle = random.nextDouble() * 2 * Math.PI;
+        Random random = new Random();
 
         // caluculate enemy spawn coordinates
-        int x = (int) (player.getHitbox().x + spawnRadius * Math.cos(angle));
-        int y = (int) (player.getHitbox().y + spawnRadius * Math.sin(angle));
+        int x = random.nextInt(Game.map.getBoundaties().x) - Game.map.getBoundaties().x / 2;
+        int y = random.nextInt(Game.map.getBoundaties().y) - Game.map.getBoundaties().y / 2;
 
         enemies.add(
-            new Enemy(new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight() - 10)));
+            new Enemy(new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight() - 10))
+        );
+
         enemies.get(enemies.size() - 1).setWeapon(new MeleeWeapon(10, 100));;
     }
 

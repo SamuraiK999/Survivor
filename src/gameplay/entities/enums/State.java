@@ -1,4 +1,4 @@
-package gameplay.entities;
+package gameplay.entities.enums;
 
 /**
  * Animation states.

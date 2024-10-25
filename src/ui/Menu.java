@@ -3,6 +3,8 @@ package ui;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import ui.buttons.Button;
+
 /**
  * The main class from which all menus derive.
  */

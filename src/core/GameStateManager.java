@@ -1,5 +1,6 @@
 package core;
 
+import core.enums.GameState;
 import core.states.Game;
 import core.states.MainMenu;
 import java.awt.Graphics;

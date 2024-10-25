@@ -1,7 +1,7 @@
 package utility;
 
-import shapes.Circle;
-import shapes.Rect;
+import utility.shapes.Circle;
+import utility.shapes.Rect;
 
 /**
  * Created for the purpose of this game; contains useful custom functions.

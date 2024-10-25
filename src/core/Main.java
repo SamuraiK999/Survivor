@@ -13,6 +13,8 @@ public class Main extends JPanel {
     public static JFrame frame = new JFrame("MAZNA");
     public static int FRAME_WIDTH = 1920;
     public static int FRAME_HEIGTH = 1080;
+    public static double scaleX;
+    public static double scaleY;
 
     /**
      * Constructor.
@@ -37,8 +39,8 @@ public class Main extends JPanel {
         GraphicsConfiguration gc = gd.getDefaultConfiguration();
         AffineTransform at = gc.getDefaultTransform();
 
-        double scaleX = at.getScaleX();
-        double scaleY = at.getScaleY();
+        scaleX = at.getScaleX();
+        scaleY = at.getScaleY();
 
         // Adjust the size of the window according to the DPI scaling factor
         FRAME_WIDTH = (int) (1920 / scaleX);

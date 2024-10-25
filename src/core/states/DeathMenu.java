@@ -5,11 +5,12 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import shapes.Rect;
+
 import ui.Menu;
-import ui.PlayButton;
-import ui.ReturnMenuButton;
+import ui.buttons.PlayButton;
+import ui.buttons.ReturnMenuButton;
 import utility.IM;
+import utility.shapes.Rect;
 
 /**
  * The menu that the user sees when he dies.

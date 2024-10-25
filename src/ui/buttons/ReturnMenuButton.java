@@ -1,9 +1,9 @@
-package ui;
+package ui.buttons;
 
-import core.GameState;
 import core.GameStateManager;
-import shapes.Rect;
+import core.enums.GameState;
 import utility.IM;
+import utility.shapes.Rect;
 
 /**
  * A button that sends the user back to the main menu.
