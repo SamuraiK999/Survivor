@@ -1,5 +1,7 @@
 package ui.buttons;
 
+import ui.Button;
+import ui.buttons.enums.ButtonSite;
 import utility.IM;
 import utility.shapes.Rect;
 
@@ -11,13 +13,12 @@ public class DificultyButton extends Button {
     /**
      * Constructor.
      */
-    public DificultyButton(Rect body) {
-        super(IM.difficultyButton, body);
+    public DificultyButton(ButtonSite location, Rect body) {
+        super(location, IM.difficultyButton, body);
     }
        
     @Override
     public void use() {
-        super.use();
         //Changes the dificulty
     }
 

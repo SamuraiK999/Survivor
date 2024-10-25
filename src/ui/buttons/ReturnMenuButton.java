@@ -2,6 +2,8 @@ package ui.buttons;
 
 import core.GameStateManager;
 import core.enums.GameState;
+import ui.Button;
+import ui.buttons.enums.ButtonSite;
 import utility.IM;
 import utility.shapes.Rect;
 
@@ -10,14 +12,12 @@ import utility.shapes.Rect;
  */
 public class ReturnMenuButton extends Button {
 
-    public ReturnMenuButton(Rect body) {
-        super(IM.returnMenuButton, body);
+    public ReturnMenuButton(ButtonSite location, Rect body) {
+        super(location, IM.returnMenuButton, body);
     }
 
     @Override
     public void use() {
-        super.use();
-        System.out.println("Mazna");
         GameStateManager.setState(GameState.MAIN_MENU);
     }
 }

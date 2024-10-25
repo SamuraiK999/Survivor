@@ -3,7 +3,7 @@ package gameplay.gear.weapons;
 import core.states.Game;
 import gameplay.entities.Entity;
 import gameplay.entities.enums.State;
-import gameplay.gear.Slash;
+import gameplay.gear.particles.Slash;
 import utility.shapes.Rect;
 
 /**

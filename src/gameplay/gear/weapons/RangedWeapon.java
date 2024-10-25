@@ -2,10 +2,8 @@ package gameplay.gear.weapons;
 
 import core.states.Game;
 import gameplay.entities.enums.State;
-import gameplay.gear.Bullet;
-
+import gameplay.gear.particles.Bullet;
 import java.awt.Point;
-
 import utility.Engine;
 import utility.shapes.Rect;
 

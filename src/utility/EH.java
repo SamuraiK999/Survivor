@@ -1,11 +1,12 @@
 package utility;
 
+import core.states.Game;
+import core.states.PauseMenu;
+import ui.Button;
+import ui.buttons.enums.ButtonSite;
 import core.GameStateManager;
 import core.Main;
-import ui.buttons.Button;
-
-import core.states.Game;
-import core.states.PausedMenu;
+import core.enums.GameState;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -26,7 +27,7 @@ import javax.swing.Timer;
  */
 public class EH implements ActionListener, KeyListener, MouseListener, MouseMotionListener {
 
-    private static PausedMenu pauseMenu;
+    private static PauseMenu pauseMenu;
     private static int tick = 0;
     private Timer timer = new Timer(10, this);
     private static EH instance;
@@ -49,7 +50,7 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
         buttons.add(button);
     }
 
-    public static void setPauseMenu(PausedMenu pm) {
+    public static void setPauseMenu(PauseMenu pm) {
         pauseMenu = pm;
     }
 
@@ -100,7 +101,7 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void keyReleased(KeyEvent e) {
         isPressed[e.getKeyCode()] = false;
-        pauseMenu.OnKeyReleased(e.getKeyCode());
+        pauseMenu.onKeyReleased(e.getKeyCode());
     }
 
     @Override
@@ -134,14 +135,37 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void mouseReleased(MouseEvent e) {
         isMousePressed = false;
-        if(GameStateManager.getPauseState() || Game.deathMenu != null){
-            if (buttons.size() > 0) {
-                for (Button b : buttons) {
-                    b.onMouseReleased();
-                }
+
+        if (!buttons.isEmpty()) {
+            switch (GameStateManager.getState()) {
+                case MAIN_MENU:
+                    for (Button b : buttons) {
+                        if (b.getLocation() == ButtonSite.MAIN_MENU) {
+                            b.onMouseReleased();
+                        }
+                    }
+                    break;
+
+                case GAME:
+                    for (Button b : buttons) {
+                        if (Game.getPauseState()) {
+                            if (b.getLocation() == ButtonSite.PAUSE_MENU) {
+                                b.onMouseReleased();
+                            }
+                        }
+                        if (!Game.getPlayerState()) {
+                            if (b.getLocation() == ButtonSite.DEATH_MENU) {
+                                b.onMouseReleased();
+                            }
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
             }
         }
-        
+
     }
 
     @Override
@@ -152,9 +176,5 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
-    }
-
-    public static void clearButtons() {
-        buttons.clear();
     }
 }

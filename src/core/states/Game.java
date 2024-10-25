@@ -24,9 +24,9 @@ import utility.shapes.Rect;
  */
 public class Game {
 
-    public static DeathMenu deathMenu;
-    public static PausedMenu pausedMenu;
     public static Map map = new Map();
+    public static PauseMenu pausedMenu = new PauseMenu();
+    public static DeathMenu deathMenu;
 
     public static ArrayList<Entity> entities = new ArrayList<>();
 
@@ -45,6 +45,9 @@ public class Game {
     private static Point2D.Float camera = new Point2D.Float(0, 0);
 
     private static EnemySpawner enemySpawner = new EnemySpawner();
+
+    private static boolean isGamePaused = false;
+    private static boolean isPlayerAlive = true;
 
     /**
      * Constructor.
@@ -65,12 +68,20 @@ public class Game {
         bullets = new ArrayList<>();
         slashes = new ArrayList<>();
         enemySpawner = new EnemySpawner();
+
+        pausedMenu.init();
     }
 
     /**
      * Handles game logic.
      */
     public void update() {
+        
+        if (isGamePaused) {
+            pausedMenu.update();
+            return;
+        }
+
         map.update();
 
         enemySpawner.update();
@@ -101,7 +112,7 @@ public class Game {
         slashes.removeAll(slashesToRemove);
         slashesToRemove.clear();
 
-        if (deathMenu != null) {
+        if (!isPlayerAlive) {
             deathMenu.update();
         }
     }
@@ -128,7 +139,11 @@ public class Game {
 
         map.drawOverlay(g);
 
-        if (deathMenu != null) {
+        if (isGamePaused) {
+            pausedMenu.draw(g);
+        }
+
+        if (!isPlayerAlive) {
             deathMenu.draw(g);
         }
     }
@@ -165,9 +180,37 @@ public class Game {
     /**
      * Inits a post-death menu.
      */
-    public static void createDeathMenu() {
+    public static void initDeathMenu() {
         if (deathMenu == null) {
             deathMenu = new DeathMenu();
         }
+    }
+
+    /**
+     * Getter for the player state (alive or dead).
+     */
+    public static boolean getPlayerState() {
+        return isPlayerAlive;
+    }
+
+    /**
+     * Setter for the player state (alive or dead).
+     */
+    public static void setPlayerState(boolean state) {
+        isPlayerAlive = state;
+    }
+
+    /**
+     * Getter for the pause state.
+     */
+    public static boolean getPauseState() {
+        return isGamePaused;
+    }
+
+    /**
+     * Setter for the pause state.
+     */
+    public static void setPauseState(boolean state) {
+        isGamePaused = state;
     }
 }

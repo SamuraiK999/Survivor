@@ -3,12 +3,9 @@ package gameplay;
 import core.states.Game;
 import gameplay.entities.Enemy;
 import gameplay.entities.Entity;
-import gameplay.entities.Player;
 import gameplay.gear.weapons.MeleeWeapon;
-
 import java.util.ArrayList;
 import java.util.Random;
-
 import utility.EH;
 import utility.shapes.Rect;
 
@@ -17,20 +14,17 @@ import utility.shapes.Rect;
  */
 public class EnemySpawner {
 
-    private Player player;
     private ArrayList<Enemy> enemies;
 
     private int waveInd;
     private int waveSize;
     private int spawnInterval;
-    private Random random;
     private int timer;
 
     /**
      * Constructor.
      */
     public EnemySpawner() {
-        player = Game.getPlayer();
         enemies = Game.enemies;
 
         waveInd = 1;
@@ -38,7 +32,6 @@ public class EnemySpawner {
 
         spawnInterval = 1; // 1 minute
         spawnInterval *= 60 * 10; // transform into ms
-        random = new Random();
         timer = EH.getTick();
         spawnEnemy();
     }

@@ -1,11 +1,8 @@
 package gameplay.entities;
 
-import core.GameStateManager;
 import core.states.Game;
 import gameplay.entities.enums.State;
-
 import java.awt.event.KeyEvent;
-
 import utility.EH;
 import utility.IM;
 import utility.shapes.Rect;
@@ -35,8 +32,9 @@ public class Player extends Entity {
     public void update() {
         super.update();
         handleInput();
+
         if (EH.getTick() - timer > 20 && getState() == State.DYING) {
-            Game.createDeathMenu();
+            handlePostDeath();
         }
     }
 
@@ -44,6 +42,11 @@ public class Player extends Entity {
     public void die() {
         super.die();
         timer = EH.getTick();
+    }
+
+    private void handlePostDeath() {
+        Game.setPlayerState(false);
+        Game.initDeathMenu();
     }
 
     private void handleInput() {
@@ -54,36 +57,19 @@ public class Player extends Entity {
     /**
      * Handle input for movement.
      */
-    private void movementInput() { // can we remove that from the checkstyle pretty please xd
+    private void movementInput() {
 
         if (health <= 0 || currentState == State.ATTACKING) {
             return;
         }
 
-        float x = 0; // horizontal dir
-        float y = 0; // vertical dir
+        // horizontal input
+        float x = (EH.isKeyPressed(KeyEvent.VK_A) && EH.isKeyPressed(KeyEvent.VK_D)) ? 0
+                : (EH.isKeyPressed(KeyEvent.VK_A) ? -1 : (EH.isKeyPressed(KeyEvent.VK_D) ? 1 : 0));
 
-        if (EH.isKeyPressed(KeyEvent.VK_W) && EH.isKeyPressed(KeyEvent.VK_S)) {
-            y = 0;
-        } else {
-            if (EH.isKeyPressed(KeyEvent.VK_W)) {
-                y = 1;
-            }
-            if (EH.isKeyPressed(KeyEvent.VK_S)) {
-                y = -1;
-            }
-        }
-
-        if (EH.isKeyPressed(KeyEvent.VK_A) && EH.isKeyPressed(KeyEvent.VK_D)) {
-            x = 0;
-        } else {
-            if (EH.isKeyPressed(KeyEvent.VK_A)) {
-                x = -1;
-            }
-            if (EH.isKeyPressed(KeyEvent.VK_D)) {
-                x = 1;
-            }
-        }
+        // vertical input
+        float y = (EH.isKeyPressed(KeyEvent.VK_W) && EH.isKeyPressed(KeyEvent.VK_S)) ? 0
+                : (EH.isKeyPressed(KeyEvent.VK_W) ? 1 : (EH.isKeyPressed(KeyEvent.VK_S) ? -1 : 0));
 
         move(x, y);
     }

@@ -11,6 +11,7 @@ import ui.Menu;
 import ui.buttons.DificultyButton;
 import ui.buttons.PlayButton;
 import ui.buttons.QuitButton;
+import ui.buttons.enums.ButtonSite;
 import utility.IM;
 import utility.shapes.Rect;
 
@@ -22,13 +23,14 @@ public class MainMenu extends Menu {
     BufferedImage mainMenuBackground = IM.mainMenuBackground;
 
     public MainMenu() {
-        super();
+        super(ButtonSite.MAIN_MENU);
     }
 
     @Override
     public void init() {
         buttons.add(
                 new PlayButton(
+                    location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2,
                                 Main.FRAME_HEIGTH / 2 - 70,
                                 IM.playButton.getWidth(),
@@ -36,6 +38,7 @@ public class MainMenu extends Menu {
 
         buttons.add(
                 new DificultyButton(
+                    location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.difficultyButton.getWidth() / 2,
                                 Main.FRAME_HEIGTH / 2,
                                 IM.difficultyButton.getWidth(),
@@ -43,6 +46,7 @@ public class MainMenu extends Menu {
 
         buttons.add(
                 new QuitButton(
+                    location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.quitButton.getWidth() / 2,
                                 Main.FRAME_HEIGTH / 2 + 70,
                                 IM.quitButton.getWidth(),

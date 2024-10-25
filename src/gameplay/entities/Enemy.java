@@ -2,9 +2,7 @@ package gameplay.entities;
 
 import core.states.Game;
 import gameplay.entities.enums.State;
-
 import java.util.Random;
-
 import utility.Engine;
 import utility.IM;
 import utility.shapes.Rect;
@@ -43,7 +41,7 @@ public class Enemy extends Entity {
         super.update();
         movementAI();
         shooting();
-        if (isFinished && health <= 0) {
+        if (isFinished && getState() == State.DYING) {
             Game.enemiesToRemove.add(this);
         }
     }

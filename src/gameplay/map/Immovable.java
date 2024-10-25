@@ -1,7 +1,6 @@
 package gameplay.map;
 
 import java.awt.Graphics;
-
 import utility.shapes.Rect;
 
 /**

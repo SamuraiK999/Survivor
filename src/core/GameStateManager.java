@@ -3,8 +3,7 @@ package core;
 import core.enums.GameState;
 import core.states.Game;
 import core.states.MainMenu;
-import core.states.PausedMenu;
-
+import core.states.PauseMenu;
 import java.awt.Graphics;
 import utility.EH;
 
@@ -14,13 +13,11 @@ import utility.EH;
 public class GameStateManager {
 
     private static GameStateManager instance;
-    private static boolean pausedGame = true;
 
     private static GameState currentGameState = GameState.MAIN_MENU;
 
     private static Game game;
     private static MainMenu mainMenu = new MainMenu();
-    private static PausedMenu pausedMenu = new PausedMenu();
 
     /**
      * Constructor.
@@ -39,11 +36,7 @@ public class GameStateManager {
                 break;
 
             case GAME:
-                if(!pausedGame){
-                    game.update();
-                } else {
-                    pausedMenu.update();
-                }
+                game.update();
                 break;
             default:
                 break;
@@ -61,11 +54,8 @@ public class GameStateManager {
 
             case GAME:
                 game.draw(g);
-                if (pausedGame) {
-                    pausedMenu.draw(g);
-                }
                 break;
-        
+
             default:
                 break;
         }
@@ -101,10 +91,8 @@ public class GameStateManager {
      * Switch the current game state.
      */
     public static void setState(GameState newState) {
-        EH.clearButtons();
         currentGameState = newState;
-
-        pausedGame = true;
+        Game.setPauseState(false);
 
         switch (currentGameState) {
             case MAIN_MENU:
@@ -112,28 +100,11 @@ public class GameStateManager {
                 break;
 
             case GAME:
-                pausedGame = false;
                 game.init();
-                pausedMenu.init();
                 break;
-        
+
             default:
                 break;
         }
-    }
-
-
-    /*
-     * This sets the game to be paused
-     */
-    public static void setPausedState(boolean state){
-        pausedGame = state;
-    }
-
-    /*
-     * This return the if the game is paused or not
-     */
-    public static boolean getPauseState(){
-        return pausedGame;
     }
 }

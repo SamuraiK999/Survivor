@@ -5,10 +5,10 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import ui.Menu;
 import ui.buttons.PlayButton;
 import ui.buttons.ReturnMenuButton;
+import ui.buttons.enums.ButtonSite;
 import utility.IM;
 import utility.shapes.Rect;
 
@@ -18,19 +18,21 @@ import utility.shapes.Rect;
 public class DeathMenu extends Menu {
 
     public DeathMenu() {
-        super();
+        super(ButtonSite.DEATH_MENU);
     }
 
     @Override
     protected void init() {
         buttons.add(
                 new PlayButton(
+                        location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2,
                                 Main.FRAME_HEIGTH / 2 - 70,
                                 IM.playButton.getWidth(),
                                 IM.playButton.getHeight())));
         buttons.add(
                 new ReturnMenuButton(
+                        location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2,
                                 Main.FRAME_HEIGTH / 2,
                                 IM.playButton.getWidth(),

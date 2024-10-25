@@ -1,7 +1,5 @@
 package ui.buttons;
 
-import core.GameStateManager;
-import core.enums.GameState;
 import core.states.Game;
 import ui.Button;
 import ui.buttons.enums.ButtonSite;
@@ -9,20 +7,20 @@ import utility.IM;
 import utility.shapes.Rect;
 
 /**
- * Start game button.
+ * The Resume button in the pause menu.
  */
-public class PlayButton extends Button {
+public class ResumeButton extends Button {
+
     /**
      * Constructor.
      */
-    public PlayButton(ButtonSite location, Rect body) {
+    public ResumeButton(ButtonSite location, Rect body) {
         super(location, IM.playButton, body);
     }
 
     @Override
     public void use() {
         Game.setPlayerState(true);
-        GameStateManager.setGame(new Game());
-        GameStateManager.setState(GameState.GAME);
+        Game.setPauseState(false);
     }
 }

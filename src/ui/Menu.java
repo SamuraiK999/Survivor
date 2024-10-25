@@ -3,7 +3,7 @@ package ui;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import ui.buttons.Button;
+import ui.buttons.enums.ButtonSite;
 
 /**
  * The main class from which all menus derive.
@@ -11,7 +11,13 @@ import ui.buttons.Button;
 public abstract class Menu {
     public ArrayList<Button> buttons = new ArrayList<>();
 
-    public Menu(){
+    protected ButtonSite location;
+
+    /**
+     * Constructor.
+     */
+    public Menu(ButtonSite location) {
+        this.location = location;
         init();
     }
 

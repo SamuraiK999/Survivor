@@ -2,11 +2,11 @@ package gameplay.gear.particles;
 
 import core.states.Game;
 import gameplay.entities.Enemy;
+import gameplay.entities.Entity;
 import gameplay.entities.Player;
 import gameplay.gear.weapons.Weapon;
 import gameplay.map.Immovable;
 import java.awt.*;
-
 import utility.Engine;
 import utility.shapes.Rect;
 
@@ -17,7 +17,7 @@ public class Bullet {
 
     private Rect hitbox;
     private Weapon weapon;
-    
+
     private float dirX;
     private float speed = 20;
 
@@ -61,26 +61,35 @@ public class Bullet {
     /**
      * Checking for collision with an apropriate entity.
      */
-    private void checkForCollision() { // checkstyle.
+    private void checkForCollision() {
+        // For collision with entities
         if (weapon.owner instanceof Player) {
             for (Enemy enemy : Game.enemies) {
-                if (Engine.collisionRect(hitbox, enemy.getHitbox()) && enemy.getHealth() > 0) {
-                    enemy.takeDamage(weapon.damage);
-                    Game.bulletsToRemove.add(this);
-                }
+                entityCollisionCheck(enemy);
             }
-        } else {
-            if (Engine.collisionRect(hitbox, player.getHitbox())) {
-                player.takeDamage(weapon.damage);
-                Game.bulletsToRemove.add(this);
-            }
+        } else { // If the owner is an enemy
+            entityCollisionCheck(player);
         }
-        for (Immovable e : Game.map.getEnvironment()) {
-            if (Engine.collisionRect(
-                new Rect(hitbox.x, hitbox.y + 50, hitbox.width, hitbox.height), 
-                e.getHitbox())) {
-                Game.bulletsToRemove.add(this);
-            }
+
+        // For collision with walls
+        for (Immovable object : Game.map.getEnvironment()) {
+            immovablesCollisionCheck(object);
+        }
+    }
+
+    private void entityCollisionCheck(Entity object) {
+        if (Engine.collisionRect(hitbox, object.getHitbox()) && object.getHealth() > 0) {
+            object.takeDamage(weapon.damage);
+            Game.bulletsToRemove.add(this);
+        }
+    }
+
+    private void immovablesCollisionCheck(Immovable object) {
+        // Offsetting the bullet's hitbox on the Y axis to simulate depth
+        if (Engine.collisionRect(
+                new Rect(hitbox.x, hitbox.y + 50, hitbox.width, hitbox.height),
+                object.getHitbox())) {
+            Game.bulletsToRemove.add(this);
         }
     }
 }

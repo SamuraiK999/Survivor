@@ -5,10 +5,8 @@ import gameplay.entities.Enemy;
 import gameplay.entities.Entity;
 import gameplay.entities.Player;
 import gameplay.gear.weapons.Weapon;
-
 import java.awt.Graphics;
 import java.util.ArrayList;
-
 import utility.EH;
 import utility.Engine;
 import utility.shapes.Rect;
@@ -21,6 +19,7 @@ public class Slash {
     private Rect hitbox;
     private Weapon weapon;
 
+    // Used to ensure that 1 slash can hit an entity only unce
     private ArrayList<Entity> hasHit = new ArrayList<>();
 
     private int timer = EH.getTick();
@@ -57,22 +56,23 @@ public class Slash {
     /**
      * Check for collision with entities.
      */
-    private void checkForCollision() { // checkstyle >:(
+    private void checkForCollision() {
         if (weapon.owner instanceof Player) {
             for (Enemy enemy : Game.enemies) {
-                if (Engine.collisionRect(hitbox, enemy.getHitbox())
-                    && !hasHit.contains(enemy)) {
-                    enemy.takeDamage(weapon.damage);
-                    hasHit.add(enemy);
-                }
+                entityCollisionCheck(enemy);
             }
-        } else {
-            if (Engine.collisionRect(hitbox, player.getHitbox()) 
-                && !hasHit.contains(Game.getPlayer())) {
+        } else { // if the owner is an enemy
+            entityCollisionCheck(player);
+        }
+    }
 
-                player.takeDamage(weapon.damage);
-                hasHit.add(player);
-            }
+    private void entityCollisionCheck(Entity object) {
+        if (Engine.collisionRect(hitbox, object.getHitbox())
+            && object.getHealth() > 0
+            && !hasHit.contains(Game.getPlayer())) {
+
+            object.takeDamage(weapon.damage);
+            hasHit.add(object);
         }
     }
 }

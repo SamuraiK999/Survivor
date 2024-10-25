@@ -1,12 +1,11 @@
-package ui.buttons;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
+package ui;
 
 import core.GameStateManager;
-
-import utility.EH;
+import ui.buttons.enums.ButtonSite;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import utility.Engine;
+import utility.EH;
 import utility.IM;
 import utility.shapes.Rect;
 
@@ -14,17 +13,19 @@ import utility.shapes.Rect;
  * Class for the buttons in the game.
  */
 
-public class Button {
+public abstract class Button {
 
     private BufferedImage image;
     private Rect body;
     private boolean drawMask = false;
     private float alpha = 0.5f;
+    private ButtonSite location;
 
     /**
      * Constuctor.
      */
-    public Button(BufferedImage image, Rect body) {
+    public Button(ButtonSite location, BufferedImage image, Rect body) {
+        this.location = location;
         this.image = image;
         this.body = body;
         EH.getInstance().addButton(this);
@@ -40,19 +41,24 @@ public class Button {
     public void draw(Graphics g) {
         Graphics gCpy = g.create();
 
-        IM.drawRotatedImage(g, image,
-            new Point((int) (body.x + body.width / 2), (int) (body.y + body.height / 2)), 1, 1, 0);
+        IM.drawRotatedImage(
+                g,
+                image,
+                new Point((int) (body.x + body.width / 2),
+                        (int) (body.y + body.height / 2)),
+                1,
+                1,
+                0);
 
         if (drawMask) {
             drawMask(gCpy);
         }
     }
 
-    public void use() {
-        if(!GameStateManager.getPauseState()){
-            return;
-        }
-    }
+    /**
+     * What happens when using the butotn.
+     */
+    public abstract void use();
 
     /**
      * Callback for when the mouse is released.
@@ -98,5 +104,9 @@ public class Button {
 
         g2d.setColor(Color.WHITE);
         body.draw(g2d);
+    }
+
+    public ButtonSite getLocation() {
+        return location;
     }
 }
