@@ -1,6 +1,6 @@
 package utility.shapes;
 
-import core.states.Game;
+import gameplay.Camera;
 import java.awt.Graphics;
 
 /**
@@ -45,6 +45,6 @@ public class Circle {
     }
 
     public Circle getRelative() {
-        return new Circle(x + Game.getCamera().x, y + Game.getCamera().y, r);
+        return new Circle(x + Camera.getCoordinates().x, y + Camera.getCoordinates().y, r);
     }
 }

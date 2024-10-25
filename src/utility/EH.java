@@ -1,13 +1,9 @@
 package utility;
 
-import core.states.Game;
-import core.states.PauseMenu;
-import ui.Button;
-import ui.buttons.enums.ButtonSite;
 import core.GameStateManager;
 import core.Main;
-import core.enums.GameState;
-
+import core.states.Game;
+import core.states.PauseMenu;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +15,8 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Timer;
+import ui.Button;
+import ui.buttons.enums.ButtonSite;
 
 /**
  * EventHandler

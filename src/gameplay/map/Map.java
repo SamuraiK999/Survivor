@@ -1,6 +1,7 @@
 package gameplay.map;
 
 import core.states.Game;
+import gameplay.Camera;
 import gameplay.entities.Player;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -36,22 +37,22 @@ public class Map {
         overlayObjects = IM.overlayObjects;
 
         overlayObjectsCoordinates.add(
-            translateCoordinates(
-                new Point(
-                    36 + overlayObjects.get(0).getWidth() / 2, 
-                    641 + overlayObjects.get(0).getHeight() / 2)));
+                translateCoordinates(
+                        new Point(
+                                36 + overlayObjects.get(0).getWidth() / 2,
+                                641 + overlayObjects.get(0).getHeight() / 2)));
 
         overlayObjectsCoordinates.add(
-            translateCoordinates(
-                new Point(
-                    41 + overlayObjects.get(1).getWidth() / 2, 
-                    842 + overlayObjects.get(1).getHeight() / 2)));
+                translateCoordinates(
+                        new Point(
+                                41 + overlayObjects.get(1).getWidth() / 2,
+                                842 + overlayObjects.get(1).getHeight() / 2)));
 
         overlayObjectsCoordinates.add(
-            translateCoordinates(
-                new Point(
-                    261 + overlayObjects.get(2).getWidth() / 2, 
-                    512 + overlayObjects.get(2).getHeight() / 2)));
+                translateCoordinates(
+                        new Point(
+                                261 + overlayObjects.get(2).getWidth() / 2,
+                                512 + overlayObjects.get(2).getHeight() / 2)));
 
         try {
             loadRectsFromFile();
@@ -74,7 +75,7 @@ public class Map {
      */
     public void draw(Graphics g) {
         IM.drawRotatedImage(g, backgroundMap,
-                new Point((int) (Game.getCamera().x), (int) (Game.getCamera().y)),
+                new Point((int) (Camera.getCoordinates().x), (int) (Camera.getCoordinates().y)),
                 3, 3, 0);
     }
 
@@ -85,14 +86,16 @@ public class Map {
         player = Game.getPlayer();
 
         IM.drawRotatedImage(g, overlayMap,
-                new Point((int) (Game.getCamera().x), (int) (Game.getCamera().y)),
+                new Point((int) (Camera.getCoordinates().x), (int) (Camera.getCoordinates().y)),
                 3, 3, 0);
         for (int i = 0; i < overlayObjectsCoordinates.size(); i++) {
             if (player.getHitbox().y < overlayObjectsCoordinates.get(i).y - 30) {
                 IM.drawRotatedImage(g, overlayObjects.get(i),
                         new Point(
-                                (int) (overlayObjectsCoordinates.get(i).x + Game.getCamera().x),
-                                (int) (overlayObjectsCoordinates.get(i).y + Game.getCamera().y)),
+                                (int) (overlayObjectsCoordinates.get(i).x
+                                        + Camera.getCoordinates().x),
+                                (int) (overlayObjectsCoordinates.get(i).y
+                                        + Camera.getCoordinates().y)),
                         3, 3, 0);
             }
         }
@@ -127,8 +130,8 @@ public class Map {
 
     private Point translateCoordinates(Point p) {
         return new Point(
-            (p.x - backgroundMap.getWidth() / 2) * 3, 
-            (p.y - backgroundMap.getHeight() / 2) * 3); 
+                (p.x - backgroundMap.getWidth() / 2) * 3,
+                (p.y - backgroundMap.getHeight() / 2) * 3);
     }
 
     public ArrayList<Immovable> getEnvironment() {

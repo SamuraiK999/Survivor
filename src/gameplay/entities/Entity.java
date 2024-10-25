@@ -31,7 +31,7 @@ public abstract class Entity {
 
     public State currentState = State.IDLE;
     protected boolean isAnimationLocked = false;
-    private int facing = 1;
+    private int direction = 1;
     protected int offsetY = 4;
 
     protected ArrayList<BufferedImage> idle = new ArrayList<>();
@@ -82,7 +82,7 @@ public abstract class Entity {
             IM.drawRotatedImage(g, currentFrame,
                     new Point((int) (hitbox.getRelative().x + hitbox.width / 2),
                             (int) (hitbox.getRelative().y + offsetY)),
-                    1.5 * facing, 1.5, 0);
+                    1.5 * direction, 1.5, 0);
         }
     }
 
@@ -116,9 +116,7 @@ public abstract class Entity {
         }
 
         if (x == 0 && y == 0) {
-            if (currentState != State.IDLE) {
-                setState(State.IDLE);
-            }
+            setState(State.IDLE);
             return;
         }
 
@@ -197,17 +195,15 @@ public abstract class Entity {
                 break;
         }
 
+        isFinished = false;
         if (animIndex > animArray.size() - 1) {
+            animIndex = animArray.size() - 1;
             if (currentState != State.DYING) {
                 animIndex = 0;
                 isAnimationLocked = false;
-            } else {
-                animIndex = animArray.size() - 1;
             }
             isFinished = true;
             setState(State.IDLE);
-        } else {
-            isFinished = false;
         }
 
         return animArray.get(animIndex);
@@ -220,9 +216,7 @@ public abstract class Entity {
     private void moveLerp(float x, float y) {
 
         if (x == 0 && y == 0) {
-            if (currentState != State.IDLE) {
-                setState(State.IDLE);
-            }
+            setState(State.IDLE);
             return;
         }
 
@@ -261,26 +255,33 @@ public abstract class Entity {
             }
         }
 
-        for (Immovable e : Game.map.getEnvironment()) {
-            if (Engine.collisionRect(hitboxMovement, e.getHitbox())) {
-                float overlapX1 = Math.max(hitboxMovement.x, e.getHitbox().x);
-                float overlapY1 = Math.max(hitboxMovement.y, e.getHitbox().y);
+        for (Immovable object : Game.map.getEnvironment()) {
+            repulseSelf(object.getHitbox());
+        }
+    }
 
-                float overlapX2 = Math.min(
-                        hitboxMovement.x + hitboxMovement.width,
-                        e.getHitbox().x + e.getHitbox().width);
-                float overlapY2 = Math.min(
-                        hitboxMovement.y + hitboxMovement.height,
-                        e.getHitbox().y + e.getHitbox().height);
+    /**
+     * Repulse self away from a rect.
+     */
+    private void repulseSelf(Rect rect) {
+        if (Engine.collisionRect(hitboxMovement, rect)) {
+            float overlapX1 = Math.max(hitboxMovement.x, rect.x);
+            float overlapY1 = Math.max(hitboxMovement.y, rect.y);
 
-                // Calculate the center of the overlapping area
-                int collisionX = (int) (overlapX1 + overlapX2) / 2;
-                int collisionY = (int) (overlapY1 + overlapY2) / 2;
+            float overlapX2 = Math.min(
+                    hitboxMovement.x + hitboxMovement.width,
+                    rect.x + rect.width);
+            float overlapY2 = Math.min(
+                    hitboxMovement.y + hitboxMovement.height,
+                    rect.y + rect.height);
 
-                // Move the opposite direction from the point of collision
-                move(-(collisionX - hitboxMovement.getCentered().x),
-                        (collisionY - hitboxMovement.getCentered().y));
-            }
+            // Calculate the center of the overlapping area
+            int collisionX = (int) (overlapX1 + overlapX2) / 2;
+            int collisionY = (int) (overlapY1 + overlapY2) / 2;
+
+            // Move the opposite direction from the point of collision
+            move(-(collisionX - hitboxMovement.getCentered().x),
+                    (collisionY - hitboxMovement.getCentered().y));
         }
     }
 
@@ -330,10 +331,10 @@ public abstract class Entity {
     }
 
     /**
-     * Returns the direction that the entity is facing.
+     * Returns the direction that the entity is direction.
      */
     public int getDirection() {
-        return facing;
+        return direction;
     }
 
     /**
@@ -341,9 +342,9 @@ public abstract class Entity {
      */
     protected void setDirection(Direction newDirection) {
         if (newDirection == Direction.RIGHT) {
-            facing = 1;
+            direction = 1;
         } else {
-            facing = -1;
+            direction = -1;
         }
     }
 }

@@ -1,11 +1,7 @@
 package core.states;
 
-import core.GameStateManager;
 import core.Main;
-import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import ui.Menu;
 import ui.buttons.ResumeButton;
@@ -46,10 +42,7 @@ public class PauseMenu extends Menu {
 
     @Override
     public void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.20f));
-        g2d.setColor(Color.BLACK);
-        g2d.fillRect(0, 0, Main.FRAME_WIDTH, Main.FRAME_HEIGTH);
+        // TODO: draw bg
         super.draw(g);
     }
 

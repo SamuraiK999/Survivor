@@ -1,6 +1,6 @@
 package core.states;
 
-import core.Main;
+import gameplay.Camera;
 import gameplay.EnemySpawner;
 import gameplay.entities.Enemy;
 import gameplay.entities.Entity;
@@ -10,13 +10,8 @@ import gameplay.gear.particles.Slash;
 import gameplay.gear.weapons.RangedWeapon;
 import gameplay.map.Map;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-
-import utility.Engine;
-import utility.IM;
-import utility.shapes.Circle;
 import utility.shapes.Rect;
 
 /**
@@ -41,8 +36,6 @@ public class Game {
 
     public static ArrayList<Slash> slashes = new ArrayList<>();
     public static List<Slash> slashesToRemove = new ArrayList<>();
-
-    private static Point2D.Float camera = new Point2D.Float(0, 0);
 
     private static EnemySpawner enemySpawner = new EnemySpawner();
 
@@ -104,7 +97,7 @@ public class Game {
         enemies.removeAll(enemiesToRemove);
         enemiesToRemove.clear();
 
-        cameraFollow(player.getHitbox());
+        Camera.follow(player.getHitbox());
 
         for (Slash s : slashes) {
             s.update();
@@ -146,31 +139,6 @@ public class Game {
         if (!isPlayerAlive) {
             deathMenu.draw(g);
         }
-    }
-
-    /**
-     * Make the camera follow a target of type rect.
-     */
-    public static void cameraFollow(Rect target) {
-        float newX = Engine.clamp(
-                Engine.lerp(camera.x,
-                    -(target.x + target.width / 2) + Main.FRAME_WIDTH / (float) Main.scaleX / 2,
-                    0.1f),
-                IM.backgroundMap.getWidth() / 2,
-                IM.backgroundMap.getWidth() / 2 * 3);
-
-        float newY = Engine.clamp(
-                Engine.lerp(camera.y,
-                    -(target.y + target.height / 2) + Main.FRAME_HEIGTH / (float) Main.scaleY / 2,
-                    0.1f),
-                -IM.backgroundMap.getHeight() / 2 + Entity.getDefaultHeight(),
-                IM.backgroundMap.getHeight() / 2 * 3);
-
-        camera.setLocation(newX, newY);
-    }
-
-    public static Point2D.Float getCamera() {
-        return camera;
     }
 
     public static Player getPlayer() {

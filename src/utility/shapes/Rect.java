@@ -1,6 +1,6 @@
 package utility.shapes;
 
-import core.states.Game;
+import gameplay.Camera;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -38,10 +38,10 @@ public class Rect {
      */
     public void draw(Graphics g) {
         g.fillRect(
-            (int) x, 
-            (int) y, 
-            (int) width, 
-            (int) height);
+                (int) x,
+                (int) y,
+                (int) width,
+                (int) height);
     }
 
     /**
@@ -49,26 +49,24 @@ public class Rect {
      */
     public void drawRelative(Graphics g) {
         g.fillRect(
-            (int) (getRelative().x), 
-            (int) (getRelative().y), 
-            (int) width, 
-            (int) height);
+                (int) (getRelative().x),
+                (int) (getRelative().y),
+                (int) width,
+                (int) height);
     }
 
+    /**
+     * Returns the point at the center of the rect.
+     */
     public Point getCentered() {
         return new Point((int) (x + width / 2), (int) (y + height / 2));
     }
 
-    public Rect getRelative() {
-        return new Rect(x + Game.getCamera().x, y + Game.getCamera().y, width, height);
-    }
-
     /**
-     * tova setva novi cordinati na body v menuto.
+     * Returns a copy of the rect with coordinates relative to the camera.
      */
-    public Rect setLocation(int x, int y) {
-        this.x = x;
-        this.y = y;
-        return this;
+    public Rect getRelative() {
+        return new Rect(x + Camera.getCoordinates().x,
+                y + Camera.getCoordinates().y, width, height);
     }
 }

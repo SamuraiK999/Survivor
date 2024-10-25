@@ -3,9 +3,7 @@ package core;
 import core.enums.GameState;
 import core.states.Game;
 import core.states.MainMenu;
-import core.states.PauseMenu;
 import java.awt.Graphics;
-import utility.EH;
 
 /**
  * Manages the states of the app.
