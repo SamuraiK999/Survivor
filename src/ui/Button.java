@@ -1,11 +1,10 @@
 package ui;
 
-import core.GameStateManager;
-import ui.buttons.enums.ButtonSite;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import utility.Engine;
+import ui.buttons.enums.ButtonSite;
 import utility.EH;
+import utility.Engine;
 import utility.IM;
 import utility.shapes.Rect;
 
