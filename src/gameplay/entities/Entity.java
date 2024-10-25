@@ -300,7 +300,7 @@ public abstract class Entity {
      * Switch the animation state.
      */
     public void setState(State newState) {
-        if (isAnimationLocked) {
+        if (isAnimationLocked && newState != State.DYING) {
             return;
         }
         if (newState == State.ATTACKING || newState == State.DYING) {
