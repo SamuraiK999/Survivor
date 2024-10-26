@@ -1,7 +1,13 @@
 package core.states;
 
 import core.Main;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import ui.Menu;
 import ui.buttons.MainMenuButton;
 import ui.buttons.PlayButton;
@@ -48,7 +54,22 @@ public class DeathMenu extends Menu {
 
     @Override
     public void draw(Graphics g) {
+        int scoreWidth;
         tintBackground(g);
         super.draw(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.white);
+        Font impactFont = new Font("Impact", Font.PLAIN, 24);
+        FontMetrics metrics = g2d.getFontMetrics(impactFont);
+        scoreWidth = metrics.stringWidth(String.valueOf("YOUR SCORE"));
+        g2d.drawString("YOUR SCORE", 
+        (Main.FRAME_WIDTH / 2 - 3 * (IM.deathMenuBackground.getWidth() / 4)) , 
+        Main.FRAME_HEIGTH / 2 - 3 * (IM.deathMenuBackground.getHeight() / 8));    
+        g2d.drawString(String.valueOf(Game.score), 
+            Main.FRAME_WIDTH / 2 - (3 * (IM.deathMenuBackground.getWidth() / 4) - scoreWidth / 2) , 
+            Main.FRAME_HEIGTH/2 - 3 * (IM.deathMenuBackground.getHeight() / 8) + 35);
+        
+        
+
     }
 }

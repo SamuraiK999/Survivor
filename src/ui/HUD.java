@@ -97,10 +97,8 @@ public class HUD {
                 IM.score.getWidth(),
                 IM.score.getHeight(),
                 null);
-        Graphics2D g2d = (Graphics2D) g; // assuming g is your Graphics object
+        Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.white);
-
-        // Create a Font object for Impact with desired style and size
         Font impactFont = new Font("Impact", Font.PLAIN, 24);
         FontMetrics metrics = g2d.getFontMetrics(impactFont);
         scoreWidth = metrics.stringWidth(String.valueOf(Game.score));
