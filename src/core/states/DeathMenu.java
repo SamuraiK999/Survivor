@@ -34,14 +34,14 @@ public class DeathMenu extends Menu {
                 new PlayButton(
                         location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2,
-                                Main.FRAME_HEIGTH / 2 - 70,
+                                Main.FRAME_HEIGTH / 2,
                                 IM.playButton.getWidth(),
                                 IM.playButton.getHeight())));
         buttons.add(
                 new MainMenuButton(
                         location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2,
-                                Main.FRAME_HEIGTH / 2,
+                                Main.FRAME_HEIGTH / 2 + 70,
                                 IM.mainMenuButtonDeath.getWidth(),
                                 IM.mainMenuButtonDeath.getHeight())));
     }

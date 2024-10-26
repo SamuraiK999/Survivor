@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import ui.HUD;
-import utility.EH;
 
 /**
  * Game.
@@ -61,6 +60,7 @@ public class Game {
      */
     public void init() {
         highscore = loadHighscore();
+        score = 0;
 
         entities = new ArrayList<>();
 
@@ -84,7 +84,7 @@ public class Game {
             saveHighscore(highscore);
         }
         
-        if (isGamePaused) {
+        if (isGamePaused && isPlayerAlive) {
             pausedMenu.update();
             return;
         }
@@ -122,7 +122,6 @@ public class Game {
         HUD.update();
 
         if (!isPlayerAlive) {
-            Game.setPauseState(false);
             deathMenu.update();
         }
     }
@@ -151,7 +150,7 @@ public class Game {
         
         HUD.draw(g);
 
-        if (isGamePaused) {
+        if (isGamePaused && isPlayerAlive) {
             pausedMenu.draw(g);
         }
 
@@ -165,11 +164,8 @@ public class Game {
             String line = reader.readLine();
             return Integer.parseInt(line.trim());
         } catch (IOException e) {
-            
-        } catch (NumberFormatException e) {
-            
+            return 0;
         }
-        return 0;
     }
 
     private void saveHighscore(int number) {
@@ -177,7 +173,7 @@ public class Game {
             writer.write(Integer.toString(number));
             writer.flush();
         } catch (IOException e) {
-            
+            return;
         }
     }
 

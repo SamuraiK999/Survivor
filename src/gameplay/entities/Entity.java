@@ -5,6 +5,7 @@ import gameplay.entities.enums.Direction;
 import gameplay.entities.enums.State;
 import gameplay.gear.weapons.Weapon;
 import gameplay.map.Immovable;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -30,7 +31,7 @@ public abstract class Entity {
 
     public State currentState = State.IDLE;
     protected boolean isAnimationLocked = false;
-    private int direction = 1;
+    private Point direction = new Point(1, 1);
     protected int offsetY = 4;
 
     protected ArrayList<BufferedImage> idle = new ArrayList<>();
@@ -76,12 +77,29 @@ public abstract class Entity {
      */
     public void draw(Graphics g) {
         // hitbox.drawRelative(g);
+        
+        Color transparentBlack = new Color(0, 0, 0, 128);
+        g.setColor(transparentBlack);
+
+        int xOffset = 0;
+        int yOffset = 0;
+        if (currentState == State.RUNNING) {
+            xOffset = -direction.x * 10;
+            yOffset = -5 * direction.y;
+        }
+        
+        g.fillOval(
+                (int) (hitboxMovement.getRelative().x - hitboxMovement.width / 3 + xOffset),
+                (int) hitboxMovement.getRelative().y + 30 + yOffset,
+                (int) (hitboxMovement.width * 1.5f),
+                (int) hitboxMovement.height / 2);
+        g = g.create();
 
         if (currentFrame != null) {
             IM.drawRotatedImage(g, currentFrame,
                     new Point((int) (hitbox.getRelative().x + hitbox.width / 2),
                             (int) (hitbox.getRelative().y + offsetY)),
-                    1.5 * direction, 1.5, 0);
+                    1.5 * direction.x, 1.5, 0);
         }
     }
 
@@ -132,12 +150,20 @@ public abstract class Entity {
             y /= magnitude;
         }
 
-        // setting direction for the animation
+        // setting direction.x for the animation
         if (x > 0) {
-            setDirection(Direction.RIGHT);
+            setDirectionX(Direction.RIGHT);
+        } else if (x < 0) {
+            setDirectionX(Direction.LEFT);
         }
-        if (x < 0) {
-            setDirection(Direction.LEFT);
+
+        // setting direction.y for the animation
+        if (y > 0) {
+            setDirectionY(Direction.DOWN);
+        } else if (y < 0) {
+            setDirectionY(Direction.UP);
+        } else if (y == 0) {
+            setDirectionY(Direction.NONE);
         }
 
         // moving the body
@@ -146,19 +172,19 @@ public abstract class Entity {
     }
 
     /**
-     * Use the weapon in a direction.
+     * Use the weapon in a direction.x.
      */
     protected void useWeapon(float x) {
         if (health <= 0) {
             return;
         }
 
-        // setting direction for the animation
+        // setting direction.x for the animation
         if (x - hitbox.x > 0) {
-            setDirection(Direction.RIGHT);
+            setDirectionX(Direction.RIGHT);
         }
         if (x - hitbox.x < 0) {
-            setDirection(Direction.LEFT);
+            setDirectionX(Direction.LEFT);
         }
 
         weapon.use(x - hitbox.x);
@@ -278,18 +304,9 @@ public abstract class Entity {
             int collisionX = (int) (overlapX1 + overlapX2) / 2;
             int collisionY = (int) (overlapY1 + overlapY2) / 2;
 
-            // Move the opposite direction from the point of collision
+            // Move the opposite direction.x from the point of collision
             move(-(collisionX - hitboxMovement.getCentered().x),
                     (collisionY - hitboxMovement.getCentered().y));
-        }
-    }
-
-    private void calculateDirection() {
-        Rect ball = new Rect(0, 0, 50, 50);
-        Rect platform = new Rect(0, 0, 100, 100);
-        if (Engine.collisionRect(ball, platform)) {
-            move(ball.getCentered().x - platform.getCentered().x, 
-                 ball.getCentered().y - platform.getCentered().y);
         }
     }
 
@@ -339,20 +356,33 @@ public abstract class Entity {
     }
 
     /**
-     * Returns the direction that the entity is direction.
+     * Returns the direction.x that the entity is direction.x.
      */
     public int getDirection() {
-        return direction;
+        return direction.x;
     }
 
     /**
-     * Setting the direction at which the entity is looking.
+     * Setting the direction.x at which the entity is looking.
      */
-    protected void setDirection(Direction newDirection) {
+    protected void setDirectionX(Direction newDirection) {
         if (newDirection == Direction.RIGHT) {
-            direction = 1;
+            direction.x = 1;
         } else {
-            direction = -1;
+            direction.x = -1;
+        }
+    }
+
+    /**
+     * Setting the direction.x at which the entity is looking.
+     */
+    protected void setDirectionY(Direction newDirection) {
+        if (newDirection == Direction.UP) {
+            direction.y = -1;
+        } else if (newDirection == Direction.DOWN) {
+            direction.y = 1;
+        } else {
+            direction.y = 0;
         }
     }
 }
