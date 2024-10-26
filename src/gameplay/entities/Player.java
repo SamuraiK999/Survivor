@@ -2,6 +2,8 @@ package gameplay.entities;
 
 import core.states.Game;
 import gameplay.entities.enums.State;
+
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import utility.EH;
 import utility.IM;

@@ -3,7 +3,12 @@ package ui;
 import core.Main;
 import core.states.Game;
 import gameplay.map.Map;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import utility.Engine;
@@ -84,6 +89,7 @@ public class HUD {
     }
 
     private static void drawScore(Graphics g) {
+        int scoreWidth;
         g.drawImage(
                 IM.score,
                 Main.FRAME_WIDTH / 2 - IM.score.getWidth() / 2,
@@ -91,6 +97,16 @@ public class HUD {
                 IM.score.getWidth(),
                 IM.score.getHeight(),
                 null);
+        Graphics2D g2d = (Graphics2D) g; // assuming g is your Graphics object
+        g2d.setColor(Color.white);
+
+        // Create a Font object for Impact with desired style and size
+        Font impactFont = new Font("Impact", Font.PLAIN, 24);
+        FontMetrics metrics = g2d.getFontMetrics(impactFont);
+        scoreWidth = metrics.stringWidth(String.valueOf(Game.score));
+        g2d.setFont(impactFont);
+        g2d.drawString(String.valueOf(Game.score), 
+            (Main.FRAME_WIDTH / 2 - scoreWidth / 2 ) , 70);
     }
 
     private static void drawMinimap(Graphics g) {
