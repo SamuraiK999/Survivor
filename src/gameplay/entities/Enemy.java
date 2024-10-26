@@ -55,7 +55,7 @@ public class Enemy extends Entity {
     public void dying() {
         if (isFinished && getState() == State.DYING) {
             Game.enemiesToRemove.add(this);
-            Game.score++;
+            Game.score = Game.score + 10; 
         }
     }
 

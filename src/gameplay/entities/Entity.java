@@ -40,7 +40,7 @@ public abstract class Entity {
 
     protected boolean isFinished = false;
 
-    private BufferedImage currentFrame;
+    protected BufferedImage currentFrame;
 
     private int animIndex = 0;
 
