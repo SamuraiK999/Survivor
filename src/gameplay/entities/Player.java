@@ -33,7 +33,7 @@ public class Player extends Entity {
         super.update();
         handleInput();
 
-        if (EH.getTick() - timer > 20 && getState() == State.DYING) {
+        if (EH.getTick() - timer > 100 && getState() == State.DYING) {
             handlePostDeath();
         }
     }

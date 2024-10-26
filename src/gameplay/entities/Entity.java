@@ -284,6 +284,15 @@ public abstract class Entity {
         }
     }
 
+    private void calculateDirection() {
+        Rect ball = new Rect(0, 0, 50, 50);
+        Rect platform = new Rect(0, 0, 100, 100);
+        if (Engine.collisionRect(ball, platform)) {
+            move(ball.getCentered().x - platform.getCentered().x, 
+                 ball.getCentered().y - platform.getCentered().y);
+        }
+    }
+
     /**
      * Get a weapon in the beginning.
      */

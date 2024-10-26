@@ -102,7 +102,9 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     @Override
     public void keyReleased(KeyEvent e) {
         isPressed[e.getKeyCode()] = false;
-        pauseMenu.onKeyReleased(e.getKeyCode());
+        if (pauseMenu != null) {
+            pauseMenu.onKeyReleased(e.getKeyCode());
+        }
     }
 
     @Override

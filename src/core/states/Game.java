@@ -121,6 +121,7 @@ public class Game {
         HUD.update();
 
         if (!isPlayerAlive) {
+            Game.setPauseState(false);
             deathMenu.update();
         }
     }
