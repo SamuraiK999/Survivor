@@ -6,6 +6,7 @@ import gameplay.entities.Entity;
 import gameplay.entities.Player;
 import gameplay.gear.weapons.Weapon;
 import gameplay.map.Immovable;
+import gameplay.map.Map;
 import java.awt.*;
 import utility.Engine;
 import utility.shapes.Rect;
@@ -72,7 +73,8 @@ public class Bullet {
         }
 
         // For collision with walls
-        for (Immovable object : Game.map.getEnvironment()) {
+        // Gives me an error when I use Map.getEnvironment()?
+        for (Immovable object : Map.getEnvironment()) {
             immovablesCollisionCheck(object);
         }
     }

@@ -5,6 +5,7 @@ import gameplay.entities.enums.Direction;
 import gameplay.entities.enums.State;
 import gameplay.gear.weapons.Weapon;
 import gameplay.map.Immovable;
+import gameplay.map.Map;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -78,7 +79,7 @@ public abstract class Entity {
      */
     public void draw(Graphics g) {
         // hitbox.drawRelative(g);
-        
+
         Color transparentBlack = new Color(0, 0, 0, 128);
         g.setColor(transparentBlack);
 
@@ -88,7 +89,7 @@ public abstract class Entity {
             xOffset = -direction.x * 10;
             yOffset = -5 * direction.y;
         }
-        
+
         g.fillOval(
                 (int) (hitboxMovement.getRelative().x - hitboxMovement.width / 3 + xOffset),
                 (int) hitboxMovement.getRelative().y + 30 + yOffset,
@@ -181,50 +182,10 @@ public abstract class Entity {
             return;
         }
 
-        if (health <= 0) {
-            return;
-        }
-
         float x = dir.x - hitboxMovement.getCentered().x;
         float y = -(dir.y - hitboxMovement.getCentered().y);
 
-        if (x == 0 && y == 0) {
-            setState(State.IDLE);
-            return;
-        }
-
-        if (currentState != State.RUNNING) {
-            setState(State.RUNNING);
-        }
-
-        // calculating magnitude
-        float magnitude = (float) Math.sqrt(x * x + y * y);
-
-        // normalizing
-        if (magnitude != 0) {
-            x /= magnitude;
-            y /= magnitude;
-        }
-
-        // setting direction.x for the animation
-        if (x > 0) {
-            setDirectionX(Direction.RIGHT);
-        } else if (x < 0) {
-            setDirectionX(Direction.LEFT);
-        }
-
-        // setting direction.y for the animation
-        if (y > 0) {
-            setDirectionY(Direction.DOWN);
-        } else if (y < 0) {
-            setDirectionY(Direction.UP);
-        } else if (y == 0) {
-            setDirectionY(Direction.NONE);
-        }
-
-        // moving the body
-        hitbox.x += x * speed;
-        hitbox.y -= y * speed;
+        move(x, y);
     }
 
     /**
@@ -276,16 +237,7 @@ public abstract class Entity {
                 break;
         }
 
-        isFinished = false;
-        if (animIndex > animArray.size() - 1) {
-            animIndex = animArray.size() - 1;
-            if (currentState != State.DYING) {
-                animIndex = 0;
-                isAnimationLocked = false;
-            }
-            isFinished = true;
-            setState(State.IDLE);
-        }
+        checkAnimFinish(animArray);
 
         return animArray.get(animIndex);
     }
@@ -336,7 +288,7 @@ public abstract class Entity {
             }
         }
 
-        for (Immovable object : Game.map.getEnvironment()) {
+        for (Immovable object : Map.getEnvironment()) {
             repulseSelf(object.getHitbox());
         }
     }
@@ -363,6 +315,19 @@ public abstract class Entity {
             // Move the opposite direction.x from the point of collision
             move(-(collisionX - hitboxMovement.getCentered().x),
                     (collisionY - hitboxMovement.getCentered().y));
+        }
+    }
+    
+    private void checkAnimFinish(ArrayList<BufferedImage> animArray) {
+        isFinished = false;
+        if (animIndex > animArray.size() - 1) {
+            animIndex = animArray.size() - 1;
+            if (currentState != State.DYING) {
+                animIndex = 0;
+                isAnimationLocked = false;
+            }
+            isFinished = true;
+            setState(State.IDLE);
         }
     }
 

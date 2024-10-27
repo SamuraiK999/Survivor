@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import utility.Engine;
+import utility.IM;
 import utility.shapes.Circle;
 import utility.shapes.Rect;
 
@@ -61,7 +62,7 @@ public class WeightedUndirectedGraph {
         // Translate the coordinates.
         v = Map.translateCoordinates(v);
         // Set the vertex and upscale the radius my the map's scale
-        vertices[ind] = new Circle(v.x, v.y, 16 * Map.MAP_SCALE);
+        vertices[ind] = new Circle(v.x, v.y, 16 * IM.UI_SCALE);
     }
 
     /**
@@ -69,7 +70,6 @@ public class WeightedUndirectedGraph {
      * 
      * @param v1     - first vertex
      * @param v2     - second vertex
-     * @param weight - the weight of the new edge (length)
      */
     public void addEdge(int v1, int v2) {
         float weight = Engine.distance(vertices[v1], vertices[v2]);

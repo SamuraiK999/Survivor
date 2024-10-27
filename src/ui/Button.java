@@ -27,7 +27,7 @@ public abstract class Button {
         this.location = location;
         this.image = image;
         this.body = body;
-        EH.getInstance().addButton(this);
+        EH.addButton(this);
     }
 
     public void update() {

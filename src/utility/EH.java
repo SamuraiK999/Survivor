@@ -47,7 +47,7 @@ public class EH implements ActionListener, KeyListener, MouseListener, MouseMoti
     /**
      * Used obly inside the Button constructor i.e. don't use.
      */
-    public void addButton(Button button) {
+    public static void addButton(Button button) {
         buttons.add(button);
     }
 

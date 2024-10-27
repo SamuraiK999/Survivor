@@ -11,9 +11,6 @@ import utility.shapes.Rect;
  */
 public class Engine {
 
-    private Engine() {
-    }
-
     /**
      * Linear interpolation.
      */

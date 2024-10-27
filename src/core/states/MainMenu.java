@@ -6,7 +6,6 @@ import core.enums.GameState;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import ui.Menu;
-import ui.buttons.DificultyButton;
 import ui.buttons.PlayButton;
 import ui.buttons.QuitButton;
 import ui.buttons.enums.ButtonSite;
@@ -40,23 +39,15 @@ public class MainMenu extends Menu {
                 new PlayButton(
                         location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.playButton.getWidth() / 2,
-                                Main.FRAME_HEIGTH / 2 - 70,
+                                Main.FRAME_HEIGTH / 2 + 100,
                                 IM.playButton.getWidth(),
                                 IM.playButton.getHeight())));
-
-        buttons.add(
-                new DificultyButton(
-                        location,
-                        new Rect(Main.FRAME_WIDTH / 2 - IM.difficultyButton.getWidth() / 2,
-                                Main.FRAME_HEIGTH / 2,
-                                IM.difficultyButton.getWidth(),
-                                IM.difficultyButton.getHeight())));
 
         buttons.add(
                 new QuitButton(
                         location,
                         new Rect(Main.FRAME_WIDTH / 2 - IM.quitButton.getWidth() / 2,
-                                Main.FRAME_HEIGTH / 2 + 70,
+                                Main.FRAME_HEIGTH / 2 + 170,
                                 IM.quitButton.getWidth(),
                                 IM.quitButton.getHeight())));
     }

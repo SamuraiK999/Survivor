@@ -3,7 +3,6 @@ package ui;
 import core.Main;
 import core.states.Game;
 import gameplay.map.Map;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;

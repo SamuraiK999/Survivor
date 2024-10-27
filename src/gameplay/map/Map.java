@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import utility.Engine;
 import utility.IM;
 import utility.shapes.Rect;
 
@@ -19,8 +18,6 @@ import utility.shapes.Rect;
  * The map.
  */
 public class Map {
-
-    public static final int MAP_SCALE = 3;
 
     private static WeightedUndirectedGraph graph = new WeightedUndirectedGraph(17);
 
@@ -86,7 +83,7 @@ public class Map {
     public void draw(Graphics g) {
         IM.drawRotatedImage(g, backgroundMap,
                 new Point((int) (Camera.getCoordinates().x), (int) (Camera.getCoordinates().y)),
-                MAP_SCALE, MAP_SCALE, 0);
+                IM.UI_SCALE, IM.UI_SCALE, 0);
     }
 
     /**
@@ -97,7 +94,7 @@ public class Map {
 
         IM.drawRotatedImage(g, overlayMap,
                 new Point((int) (Camera.getCoordinates().x), (int) (Camera.getCoordinates().y)),
-                MAP_SCALE, MAP_SCALE, 0);
+                IM.UI_SCALE, IM.UI_SCALE, 0);
         for (int i = 0; i < overlayObjectsCoordinates.size(); i++) {
             if (player.getHitbox().y < overlayObjectsCoordinates.get(i).y - 30) {
                 IM.drawRotatedImage(g, overlayObjects.get(i),
@@ -129,8 +126,8 @@ public class Map {
             // multiply x and y by 3 to match the upscaling when drawing
             Rect rect = new Rect(
                     translateCoordinates(new Point(x, y)),
-                    width * MAP_SCALE,
-                    height * MAP_SCALE);
+                    width * IM.UI_SCALE,
+                    height * IM.UI_SCALE);
 
             environment.add(new Immovable(rect));
         }
@@ -139,12 +136,12 @@ public class Map {
     }
 
     /**
-     * It's 7:24am 25/10/24 after an all nighter, idk anymore. TODO
+     * Translate coordinates according to the map.
      */
     public static Point translateCoordinates(Point p) {
         return new Point(
-                (p.x - backgroundMap.getWidth() / 2) * MAP_SCALE,
-                (p.y - backgroundMap.getHeight() / 2) * MAP_SCALE);
+                (p.x - backgroundMap.getWidth() / 2) * IM.UI_SCALE,
+                (p.y - backgroundMap.getHeight() / 2) * IM.UI_SCALE);
     }
 
     /**
@@ -152,8 +149,8 @@ public class Map {
      */
     public static Point2D.Float translateCoordinates(Point2D.Float p) {
         return new Point2D.Float(
-                (p.x - backgroundMap.getWidth() / 2) * MAP_SCALE,
-                (p.y - backgroundMap.getHeight() / 2) * MAP_SCALE);
+                (p.x - backgroundMap.getWidth() / 2) * IM.UI_SCALE,
+                (p.y - backgroundMap.getHeight() / 2) * IM.UI_SCALE);
     }
 
     public static ArrayList<Immovable> getEnvironment() {
@@ -173,8 +170,8 @@ public class Map {
     /*private void addImmovable(Rect object) {
         object = new Rect(
                 translateCoordinates(new Point((int) object.x * 32, (int) object.y * 32)),
-                object.width * 32 * MAP_SCALE,
-                object.height * 32 * MAP_SCALE);
+                object.width * 32 * IM.UI_SCALE,
+                object.height * 32 * IM.UI_SCALE);
         environment.add(new Immovable(object));
     }*/
 

@@ -48,7 +48,9 @@ public class EnemySpawner {
     public void update() {
         if (EH.getTick() - timer > spawnInterval) { // Spawn every n minutes
             for (int i = 0; i < waveSize; i++) {
-                spawnEnemy();
+                if (Game.getPlayerState()) {
+                    spawnEnemy();
+                }
             }
             waveInd++;
             waveSize += 2;
