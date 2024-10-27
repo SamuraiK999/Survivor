@@ -8,6 +8,7 @@ import gameplay.map.Immovable;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import utility.EH;
@@ -131,6 +132,61 @@ public abstract class Entity {
         if (health <= 0) {
             return;
         }
+
+        if (x == 0 && y == 0) {
+            setState(State.IDLE);
+            return;
+        }
+
+        if (currentState != State.RUNNING) {
+            setState(State.RUNNING);
+        }
+
+        // calculating magnitude
+        float magnitude = (float) Math.sqrt(x * x + y * y);
+
+        // normalizing
+        if (magnitude != 0) {
+            x /= magnitude;
+            y /= magnitude;
+        }
+
+        // setting direction.x for the animation
+        if (x > 0) {
+            setDirectionX(Direction.RIGHT);
+        } else if (x < 0) {
+            setDirectionX(Direction.LEFT);
+        }
+
+        // setting direction.y for the animation
+        if (y > 0) {
+            setDirectionY(Direction.DOWN);
+        } else if (y < 0) {
+            setDirectionY(Direction.UP);
+        } else if (y == 0) {
+            setDirectionY(Direction.NONE);
+        }
+
+        // moving the body
+        hitbox.x += x * speed;
+        hitbox.y -= y * speed;
+    }
+
+    /**
+     * Move the entity in one of 8 directions; x & y should be between -1 & 1.
+     */
+    protected void move(Point2D.Float dir) {
+
+        if (dir == null) {
+            return;
+        }
+
+        if (health <= 0) {
+            return;
+        }
+
+        float x = dir.x - hitboxMovement.getCentered().x;
+        float y = -(dir.y - hitboxMovement.getCentered().y);
 
         if (x == 0 && y == 0) {
             setState(State.IDLE);

@@ -5,6 +5,7 @@ import core.states.Game;
 import gameplay.entities.Enemy;
 import gameplay.entities.Entity;
 import gameplay.gear.weapons.MeleeWeapon;
+import gameplay.map.Immovable;
 import gameplay.map.Map;
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,7 +22,7 @@ public class EnemySpawner {
 
     private int waveInd;
     private int waveSize;
-    private int spawnInterval;
+    private float spawnInterval;
     private int timer;
 
     /**
@@ -31,11 +32,13 @@ public class EnemySpawner {
         enemies = Game.enemies;
 
         waveInd = 1;
-        waveSize = 1;
+        waveSize = 3;
 
-        spawnInterval = 1; // 1 minute
-        spawnInterval *= 60 * 10; // transform into ms
+        spawnInterval = 0.008f; // minutes
+        spawnInterval *= 60 * 1000; // transform into ms
         timer = EH.getTick();
+        spawnEnemy();
+        spawnEnemy();
         spawnEnemy();
     }
 
@@ -48,7 +51,8 @@ public class EnemySpawner {
                 spawnEnemy();
             }
             waveInd++;
-            waveSize++;
+            waveSize += 2;
+            spawnInterval += waveSize * 12;
             timer = EH.getTick();
         }
     }
@@ -59,10 +63,11 @@ public class EnemySpawner {
     private void spawnEnemy() {
         Random random = new Random();
 
-        // caluculate enemy spawn coordinates
-        int x = (random.nextInt(Map.getBoundaties().x) - Map.getBoundaties().x / 2) * 3;
-        int y = (random.nextInt(Map.getBoundaties().y) - Map.getBoundaties().y / 2) * 3;
+        // Starting spawnpoint
+        int x = 100;
+        int y = 100;
 
+        // While the random spawnpoint is within the user's FOV,
         while (Engine.collisionRect(
                 new Rect(
                         Game.getPlayer().getHitbox().x
@@ -72,15 +77,35 @@ public class EnemySpawner {
                         Main.FRAME_WIDTH, Main.FRAME_HEIGTH),
                 new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight()))) {
 
-            x = (random.nextInt(Map.getBoundaties().x) - Map.getBoundaties().x / 2) * 3;
-            y = (random.nextInt(Map.getBoundaties().y) - Map.getBoundaties().y / 2) * 3;
+            // Change spawnpoint.
+            x = 32 * 4
+                    + (random.nextInt(Map.getBoundaties().x - 34 * 3)
+                            - Map.getBoundaties().x / 2) * 3;
+            y = 32 * 5 + 16
+                    + (random.nextInt(Map.getBoundaties().y - 34 * 5)
+                            - Map.getBoundaties().y / 2) * 3;
+        }
+        for (Immovable obj : Map.getEnvironment()) {
+            // If enemy is spawning in a wall,
+            if (Engine.collisionRect(
+                    new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight()),
+                    obj.getHitbox())) {
+                // Change spawnpoint.
+                x = 32 * 4
+                        + (random.nextInt(Map.getBoundaties().x - 34 * 3)
+                                - Map.getBoundaties().x / 2) * 3;
+                y = 32 * 5 + 16
+                        + (random.nextInt(Map.getBoundaties().y - 34 * 5)
+                                - Map.getBoundaties().y / 2) * 3;
+            }
         }
 
+        // Spawn the enemy at the determined spawnpoint.
         enemies.add(
-                new Enemy(new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight() - 10)));
+                new Enemy(
+                        new Rect(x, y, Entity.getDefaultWidth(), Entity.getDefaultHeight() - 10)));
 
         enemies.get(enemies.size() - 1).setWeapon(new MeleeWeapon(10, 100));
-        ;
     }
 
     public int getWaveInd() {

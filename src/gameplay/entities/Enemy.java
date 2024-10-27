@@ -2,9 +2,16 @@ package gameplay.entities;
 
 import core.states.Game;
 import gameplay.entities.enums.State;
+import gameplay.map.Immovable;
+import gameplay.map.Map;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Random;
+import utility.EH;
 import utility.Engine;
 import utility.IM;
+import utility.shapes.Line;
 import utility.shapes.Rect;
 
 /**
@@ -16,6 +23,8 @@ public class Enemy extends Entity {
     private boolean dormant = true;
 
     private Player player;
+
+    private Point2D.Float nextDestination;
 
     /**
      * Contructor.
@@ -55,7 +64,7 @@ public class Enemy extends Entity {
     public void dying() {
         if (isFinished && getState() == State.DYING) {
             Game.enemiesToRemove.add(this);
-            Game.score = Game.score + 10; 
+            Game.score = Game.score + 500;
         }
     }
 
@@ -63,15 +72,65 @@ public class Enemy extends Entity {
         if (Engine.distance(player.getHitbox(), hitbox) < 500) {
             dormant = false;
         }
-            
+
         if (player.getState() == State.ATTACKING
-            && Engine.distance(player.getHitbox(), hitbox) < 1000) {
+                && Engine.distance(player.getHitbox(), hitbox) < 1000) {
             dormant = false;
         }
 
         if (!dormant) {
+            moveTowardsPlayer();
+            /*
+             * move(player.getHitbox().x - hitbox.x,
+             * -(player.getHitbox().y - hitbox.y));
+             */
+        }
+    }
+
+    /**
+     * Moves the enemy towards the player.
+     */
+    private void moveTowardsPlayer() {
+
+        boolean isPathStraightforward = true;
+        // Line from this to the player.
+        Line lineToPlayer = new Line(
+                new Point(
+                        (int) hitboxMovement.getCentered().x,
+                        (int) hitboxMovement.getCentered().y),
+                new Point(
+                        (int) Game.getPlayer().hitboxMovement.getCentered().x,
+                        (int) Game.getPlayer().hitboxMovement.getCentered().y));
+
+        // Determine whether the path to the player is straightforward.
+        for (Immovable obj : Map.getEnvironment()) {
+            if (Engine.collisionLineRect(lineToPlayer, obj.getHitbox())) {
+                isPathStraightforward = false;
+            }
+        }
+
+        if (isPathStraightforward) {
             move(player.getHitbox().x - hitbox.x,
-                -(player.getHitbox().y - hitbox.y));
+                    -(player.getHitbox().y - hitbox.y));
+        } else { // Move towards the player through the path found using Dijkstra's algorithm
+
+            // The closest vertex to this.
+            int closestV = Map.getGraph().getClosestVertexTo(hitbox);
+            // The closest vertex to the player.
+            int closestVPlayer = Map.getGraph().getClosestVertexTo(Game.getPlayer().hitbox);
+            // The shortest path to the player.
+            ArrayList<Integer> path = Map.getGraph().shortestPath(closestV, closestVPlayer);
+
+            
+
+            if (EH.getTick() % 2 == 0) {
+                if (path.size() > 1) {
+                    path.remove(path.size() - 1);
+                }
+                nextDestination = Map.getGraph().getVertex(path.get(path.size() - 1));
+            }
+                    
+            move(nextDestination);
         }
     }
 

@@ -3,6 +3,7 @@ package utility.shapes;
 import gameplay.Camera;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 /**
  * Rectangle.
@@ -27,6 +28,16 @@ public class Rect {
      * Constuctor.
      */
     public Rect(Point point, float width, float height) {
+        this.x = point.x;
+        this.y = point.y;
+        this.width = width;
+        this.height = height;
+    }
+
+    /**
+     * Constuctor.
+     */
+    public Rect(Point2D.Float point, float width, float height) {
         this.x = point.x;
         this.y = point.y;
         this.width = width;
