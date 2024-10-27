@@ -32,6 +32,7 @@ public class IM {
     public static BufferedImage difficultyButton;
     public static BufferedImage quitButton;
     public static BufferedImage mainMenuBackground;
+    public static BufferedImage title;
 
     public static BufferedImage resumeButton;
     public static BufferedImage mainMenuButtonPause;
@@ -180,7 +181,10 @@ public class IM {
                     new File(mainMenuPath + "quitButton.png"));
             // For the background
             mainMenuBackground = ImageIO.read(
-                    new File(mainMenuPath + "background.png"));
+                new File(mainMenuPath + "background.png"));
+            // For the background
+            title = ImageIO.read(
+                new File(mainMenuPath + "title1.png"));
 
             // For the pause menu:
             String pauseMenuPath = uiPath + "pause menu/";

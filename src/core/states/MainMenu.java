@@ -17,7 +17,7 @@ import utility.shapes.Rect;
  */
 public class MainMenu extends Menu {
 
-    BufferedImage mainMenuBackground = IM.mainMenuBackground;
+    BufferedImage title = IM.title;
 
     /**
      * Constructor.
@@ -25,7 +25,7 @@ public class MainMenu extends Menu {
     public MainMenu() {
         super(
                 ButtonSite.MAIN_MENU,
-                IM.mainMenuBackground,
+                IM.title,
                 new Rect(
                         Main.FRAME_WIDTH / 2,
                         Main.FRAME_HEIGTH / 2,
